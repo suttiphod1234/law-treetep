@@ -13,6 +13,55 @@ const CHANNEL_ID = '2009590576';
 const CHANNEL_SECRET = '8a3a1adb11b3c0d689950b4582d928d5';
 const REDIRECT_URI = 'https://suttiphod1234.github.io/law-treetep/';
 
+function doGet(e) {
+  try {
+    if (e.parameter && e.parameter.action === 'get_history') {
+      const code = e.parameter.code;
+      if (!code) {
+        return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'No code provided' })).setMimeType(ContentService.MimeType.JSON);
+      }
+      
+      const userId = getLineUserIdFromCode(code, REDIRECT_URI);
+      
+      if (!userId) {
+        return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'การยืนยันตัวตนกับระบบ LINE ล้มเหลว กรุณาลองใหม่อีกครั้ง' })).setMimeType(ContentService.MimeType.JSON);
+      }
+      
+      const ss = SpreadsheetApp.openById(SHEET_ID);
+      const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+      
+      let historyData = {};
+      
+      categories.forEach(cat => {
+        const sheet = ss.getSheetByName(cat);
+        if (sheet) {
+          const data = sheet.getDataRange().getValues();
+          // loop from 1 to skip header row
+          for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            if (row[5] === userId) {
+              if (!historyData[cat]) historyData[cat] = [];
+              historyData[cat].push({
+                date: row[0],
+                name: row[1],
+                phone: row[2],
+                message: row[3],
+                type: row[4]
+              });
+            }
+          }
+        }
+      });
+      
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', data: historyData })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    return ContentService.createTextOutput("Trithep Law Office API is running.");
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
@@ -49,7 +98,7 @@ function doPost(e) {
     saveToSheet(category, [new Date(), fullName, phone, message, type, userId]);
     
     // 7. Send Flex Message to Lawyer group
-    sendToLawyerGroup(fullName, phone, message, statusText, category);
+    sendToLawyerGroup(fullName, phone, message, statusText, category, type);
     
     return ContentService.createTextOutput(JSON.stringify({ status: 'success', category, userId }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -98,14 +147,20 @@ function saveToSheet(sheetName, rowData) {
   sheet.appendRow(rowData);
 }
 
-function sendToLawyerGroup(name, phone, message, statusText, category) {
+function sendToLawyerGroup(name, phone, message, statusText, category, type) {
   const url = 'https://api.line.me/v2/bot/message/push';
+  
+  let headerText = type === 'private' ? "✅ ยืนยันการชำระเงิน (Private)" : "🔔 เคสปรึกษาใหม่ (Free)";
+  let headerColor = type === 'private' ? "#2e7d32" : "#1a237e";
+  let bgColor = type === 'private' ? "#e8f5e9" : "#e8eaf6";
+
   const flexData = {
     "type": "bubble",
     "header": {
       "type": "box",
       "layout": "vertical",
-      "contents": [{ "type": "text", "text": "🔔 เคสปรึกษาใหม่", "weight": "bold", "color": "#1a237e" }]
+      "backgroundColor": bgColor,
+      "contents": [{ "type": "text", "text": headerText, "weight": "bold", "color": headerColor }]
     },
     "body": {
       "type": "box",
@@ -115,6 +170,11 @@ function sendToLawyerGroup(name, phone, message, statusText, category) {
         { "type": "text", "text": `เบอร์: ${phone}`, "size": "sm" },
         { "type": "text", "text": `สถานะ: ${statusText}`, "weight": "bold", "color": statusText.includes('Private') ? "#d32f2f" : "#4caf50" },
         { "type": "text", "text": `หมวด: ${category}`, "weight": "bold", "color": "#fbc02d" },
+        ...(type === 'private' ? [
+            { "type": "separator", "margin": "md" },
+            { "type": "text", "text": `🎉 ลูกค้าชื่อคุณ ${name} ได้เปลี่ยนสถานะเป็น ลูกค้าส่วนตัว (Private) เรียบร้อยแล้ว`, "weight": "bold", "color": "#2e7d32", "size": "sm", "wrap": true, "margin": "md" },
+            { "type": "text", "text": "💳 ตรวจสอบสลิปโอนเงินผ่านระบบสำเร็จ", "color": "#757575", "size": "xs", "margin": "sm" }
+        ] : []),
         { "type": "separator", "margin": "md" },
         { "type": "text", "text": message, "wrap": true, "margin": "md" }
       ]
@@ -194,13 +254,13 @@ function getHistoryFlex(lineId) {
 
 // --- LINE Login & Webhook Functions ---
 
-function getLineUserIdFromCode(code) {
+function getLineUserIdFromCode(code, redirectUri) {
   try {
     const tokenUrl = 'https://api.line.me/oauth2/v2.1/token';
     const payload = {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: REDIRECT_URI,
+      redirect_uri: redirectUri || REDIRECT_URI,
       client_id: CHANNEL_ID,
       client_secret: CHANNEL_SECRET
     };

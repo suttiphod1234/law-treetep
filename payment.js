@@ -47,8 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
     finalConfirmBtn.addEventListener('click', () => {
         const pendingDataStr = localStorage.getItem('pending_consultation');
         if (!pendingDataStr) {
-            alert('ข้อมูลสูญหาย กรุณาทำรายการใหม่');
-            window.location.href = 'index.html';
+            Swal.fire({
+                icon: 'warning',
+                title: 'หมดเวลาทำรายการ',
+                text: 'ข้อมูลสูญหาย กรุณาย้อนกลับไปเริ่มต้นทำรายการใหม่',
+                confirmButtonColor: '#1a237e'
+            }).then(() => {
+                window.location.href = 'index.html';
+            });
             return;
         }
         
@@ -58,8 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=login&scope=profile%20openid`;
         
-        alert('เชื่อมต่อระบบสำเร็จ! กำลังพาคุณไปล็อคอินบัญชี LINE เพื่อยืนยันตัวตนครับ');
-        window.location.href = lineLoginUrl;
+        Swal.fire({
+            icon: 'success',
+            title: 'เชื่อมต่อระบบสำเร็จ!',
+            text: 'ระบบกำลังพาคุณไปล็อคอินบัญชี LINE เพื่อเชื่อมโยงข้อมูลครับ...',
+            timer: 2500,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }).then(() => {
+            window.location.href = lineLoginUrl;
+        });
     });
 });
 
@@ -68,7 +82,12 @@ async function verifySlipAPI(file) {
     if (!SLIPOK_API_KEY) {
         const hasQR = await scanLocalQR(file);
         if (!hasQR) {
-            alert('ไม่พบ QR Code หรือไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้');
+            Swal.fire({
+                icon: 'error',
+                title: 'ตรวจสอบไม่ผ่าน',
+                text: 'ไม่พบ QR Code หรือไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้ โปรดใช้รูปสลิปจากแอปธนาคารเท่านั้น',
+                confirmButtonColor: '#d32f2f'
+            });
             return false;
         }
         return new Promise(resolve => {
@@ -97,7 +116,12 @@ async function verifySlipAPI(file) {
         if (result.success) {
             // เช็คว่ายอดเงินถึงกำหนดหรือไม่ (ทดสอบที่ 1 บาท)
             if (result.data.amount < 1) {
-                alert('ยอดเงินในสลิปไม่ครบ 1 บาท');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ยอดเงินไม่ถูกต้อง',
+                    text: 'ยอดเงินในสลิปไม่ครบตามที่กำหนด (1 บาท)',
+                    confirmButtonColor: '#d32f2f'
+                });
                 return false;
             }
             
@@ -106,19 +130,35 @@ async function verifySlipAPI(file) {
             const isMatch = receiverName.includes('สุทธิพจน์') || receiverName.includes('SUTTHIPHOD') || receiverName.includes('ศรีแสนยงค์') || receiverName.includes('มณี') || receiverName.includes('SHOP') || receiverName.includes('MANEE');
             
             if (!isMatch) {
-               alert('ชื่อบัญชีผู้รับเงินไม่ตรงกับที่กำหนด (พบชื่อบัญชี: ' + receiverName + ')\\nหรือไม่ใช่สลิปของร้านค้าแม่มณี');
-               return false;
+                Swal.fire({
+                    icon: 'error',
+                    title: 'กดยืนยันไม่สำเร็จ',
+                    html: `ชื่อบัญชีผู้รับเงินไม่ตรงกับที่กำหนด<br><small>พบชื่อบัญชี: ${receiverName}</small>`,
+                    confirmButtonColor: '#d32f2f'
+                });
+                return false;
             }
 
             return true;
         } else {
             console.error('Slip Verify API Error:', result.message);
-            alert('ไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้ หรือสลิปนี้ตรวจสอบไม่ผ่าน: ' + result.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'สลิปไม่ถูกต้อง',
+                text: 'ไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้ หรือสลิปนี้ตรวจสอบไม่ผ่าน',
+                footer: `<small>${result.message}</small>`,
+                confirmButtonColor: '#d32f2f'
+            });
             return false;
         }
     } catch (error) {
         console.error('Slip API Fetch Error:', error);
-        alert('ระบบเครือข่ายมีปัญหา ไม่สามารถตรวจสอบสลิปได้ในขณะนี้');
+        Swal.fire({
+            icon: 'error',
+            title: 'เกิดข้อผิดพลาด',
+            text: 'ระบบเครือข่ายมีปัญหา ไม่สามารถตรวจสอบสลิปได้ในขณะนี้',
+            confirmButtonColor: '#d32f2f'
+        });
         return false;
     }
 }
@@ -132,28 +172,42 @@ function scanLocalQR(file) {
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
-                canvas.width = img.width;
-                canvas.height = img.height;
-                context.drawImage(img, 0, 0, img.width, img.height);
+                
+                // ย่อขนาดรูปภาพให้สแกนได้เร็วขึ้นและป้องกันเบราว์เซอร์ล่มในมือถือ
+                const MAX_WIDTH = 800;
+                let width = img.width;
+                let height = img.height;
+                if (width > MAX_WIDTH) {
+                    height = Math.round((height * MAX_WIDTH) / width);
+                    width = MAX_WIDTH;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(img, 0, 0, width, height);
                 
                 try {
-                    const imageData = context.getImageData(0, 0, img.width, img.height);
-                    if (window.jsQR) {
+                    const imageData = context.getImageData(0, 0, width, height);
+                    if (typeof jsQR !== 'undefined') {
                         const code = jsQR(imageData.data, imageData.width, imageData.height);
-                        if (code && code.data.length > 10) {
+                        if (code && code.data && code.data.length > 10) {
+                            console.log("Scanned QR:", code.data);
                             resolve(true); // พบ QR Code ในภาพ
                         } else {
                             resolve(false); // ไม่พบ QR Code
                         }
                     } else {
-                        resolve(true); // ข้ามไปถ้าโหลด jsQR ไม่สำเร็จ
+                        console.error('jsQR library not loaded');
+                        resolve(false); // บังคับไม่ผ่านถ้าตัวแสกนไม่ทำงาน
                     }
                 } catch(err) {
                     resolve(false);
                 }
             };
+            img.onerror = () => resolve(false);
             img.src = e.target.result;
         };
+        reader.onerror = () => resolve(false);
         reader.readAsDataURL(file);
     });
 }
