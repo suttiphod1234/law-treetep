@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="imag/favicon.ico">
+    <title>นโยบายคุ้มครองข้อมูลส่วนบุคคล - สำนักกฎหมายตรีเทพทนายความ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+        .privacy-page-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-top: 6px solid var(--primary-color);
+        }
+
+        .privacy-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1.5rem;
+        }
+
+        .privacy-header h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .privacy-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .privacy-content h2 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid var(--accent-orange);
+            padding-left: 10px;
+        }
+
+        .privacy-content p {
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .privacy-content ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .privacy-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .info-box {
+            background-color: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .info-box i {
+            font-size: 2rem;
+            color: #2e7d32;
+            margin-top: 5px;
+        }
+
+        .info-box-content h3 {
+            color: #1b5e20;
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+        
+        .info-box-content p {
+            margin: 0;
+            color: #2e7d32;
+        }
+
+        .back-nav {
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+        
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        
+        .back-nav a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .privacy-page-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .privacy-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                    <img src="imag/logo ตรีเทพพิทักษ์.png" alt="โลโก้ สำนักกฎหมายตรีเทพทนายความ" style="height: 40px; width: auto; object-fit: contain;">
+                    <h2>สำนักกฎหมายตรีเทพทนายความ</h2>
+                </a>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="privacy-page-container">
+                
+                <div class="back-nav">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก</a>
+                </div>
+
+                <div class="privacy-header">
+                    <h1><i class="fas fa-user-shield"></i> นโยบายคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h1>
+                    <p>สำนักกฎหมายตรีเทพทนายความ ให้ความสำคัญกับความลับและข้อมูลของลูกความสูงสุด</p>
+                </div>
+
+                <div class="privacy-content">
+                    <div class="info-box">
+                        <i class="fas fa-lock"></i>
+                        <div class="info-box-content">
+                            <h3>จรรยาบรรณวิชาชีพทนายความ</h3>
+                            <p>ทนายความมีหน้าที่ตามกฎหมายที่จะต้อง <strong>"ปกปิดความลับของลูกความ"</strong> ข้อมูลหรือเรื่องราวทั้งหมดของท่านที่นำมาปรึกษา จะถือเป็นความลับสูงสุดและไม่ถูกเปิดเผยต่อบุคคลอื่นใดนอกเหนือจากการดูแลคดีของท่าน</p>
+                        </div>
+                    </div>
+
+                    <h2>1. ข้อมูลที่เราจัดเก็บรวบรวม</h2>
+                    <p>เราเก็บรวบรวมข้อมูลส่วนบุคคลเท่าที่จำเป็นต่อการให้บริการทางกฎหมายเท่านั้น ได้แก่:</p>
+                    <ul>
+                        <li><strong>ข้อมูลการติดต่อ:</strong> ชื่อ-นามสกุล, เบอร์โทรศัพท์, LINE ID, อีเมล</li>
+                        <li><strong>ข้อมูลประกอบคดี:</strong> รายละเอียดคดี, สัญญาเอกสาร, แชทสนทนา, สลิปโอนเงิน หรือรูปถ่ายเหตุการณ์ต่างๆ</li>
+                        <li><strong>ข้อมูลระบบ:</strong> ประวัติการใช้บริการผ่านแพลตฟอร์ม เพื่อปรับปรุงและซัพพอร์ตบัญชีของท่าน</li>
+                    </ul>
+
+                    <h2>2. วัตถุประสงค์ในการเก็บข้อมูล</h2>
+                    <p>เรานำข้อมูลของท่านไปใช้อย่างเคร่งครัดตามวัตถุประสงค์ดังต่อไปนี้:</p>
+                    <ul>
+                        <li>เพื่อวิเคราะห์และประเมินรูปคดี ให้คำปรึกษาทางกฎหมายได้อย่างแม่นยำที่สุด</li>
+                        <li>เพื่อติดต่อ สื่อสาร นัดหมาย หรือส่งมอบเอกสารต่างๆ ระหว่างทนายความและลูกความ</li>
+                        <li>เพื่อใช้เป็นหลักฐานและเอกสารประกอบการดำเนินคดีกระบวนการพิจารณาในชั้นศาล (เฉพาะเมื่อได้รับความยินยอมจากท่านแล้ว)</li>
+                    </ul>
+
+                    <h2>3. การเปิดเผยข้อมูล</h2>
+                    <p>สำนักกฎหมายฯ <strong>จะไม่มีการเปิดเผยข้อมูลหรือเอกสารส่วนตัวของท่าน</strong> ต่อบุคคลภายนอก บริษัท องค์กร หรือหน่วยงานใดๆ เว้นแต่:</p>
+                    <ul>
+                        <li>ได้รับความยินยอมเป็นลายลักษณ์อักษรจากท่าน</li>
+                        <li>เป็นการเปิดเผยต่อศาล พนักงานสอบสวน หรือเจ้าพนักงานตามคำสั่งหรือตามบทบัญญัติของกฎหมาย</li>
+                    </ul>
+
+                    <h2>4. มาตรการรักษาความปลอดภัยของข้อมูล</h2>
+                    <p>เรามีมาตรการรักษาความปลอดภัยทั้งเชิงกายภาพและระบบอิเล็กทรอนิกส์ เพื่อป้องกันไม่ให้ข้อมูลส่วนบุคคลของท่านสูญหาย ถูกเข้าถึง ใช้ เปลี่ยนแปลง หรือเปิดเผยโดยปราศจากอำนาจ เช่น จำกัดสิทธิการเข้าถึงข้อมูลเฉพาะทนายความที่รับผิดชอบคดีของท่านเท่านั้น</p>
+
+                    <h2>5. ระยะเวลาในการเก็บรักษาข้อมูล</h2>
+                    <p>เราจะเก็บข้อมูลของท่านไว้ตลอดระยะเวลาที่ยังคงเป็นลูกความ หรือกำลังดำเนินคดีอยู่ และเมื่อคดีสิ้นสุดลง หรือเมื่อท่านมีความประสงค์ขอยกเลิก เราจะดำเนินการทำลายหรือลบข้อมูลเอกสารสำคัญของท่านอย่างปลอดภัย</p>
+
+                    <h2>6. สิทธิในข้อมูลส่วนบุคคลของท่าน</h2>
+                    <p>ท่านมีสิทธิตามกฎหมายคุ้มครองข้อมูลส่วนบุคคล (PDPA) ทุกประการ ได้แก่:</p>
+                    <ul>
+                        <li>ขอเข้าถึง หรือรับสำเนาข้อมูลส่วนบุคคลของตนเอง</li>
+                        <li>ขอแก้ไขข้อมูลให้ถูกต้องเป็นปัจจุบัน</li>
+                        <li>ขอให้ลบ ทำลาย หรือระงับการใช้ข้อมูลส่วนบุคคล</li>
+                        <li>ขอถอนความยินยอมในการประมวลผลข้อมูล</li>
+                    </ul>
+
+                    <h2>7. ช่องทางการติดต่อ</h2>
+                    <p>หากท่านมีข้อสงสัยหรือต้องการใช้สิทธิเกี่ยวกับข้อมูลส่วนบุคคล โปรดติดต่อเราผ่านข้อมูลด้านล่าง:</p>
+                    <ul>
+                        <li><i class="fab fa-line"></i> <strong>LINE Official:</strong> สามารถติดต่อได้ทางช่องแชทที่ท่านใช้บริการ</li>
+                        <li><i class="fas fa-balance-scale"></i> <strong>เพจ Facebook:</strong> สำนักกฎหมายตรีเทพทนายความ</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
