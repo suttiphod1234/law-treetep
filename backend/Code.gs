@@ -9,15 +9,32 @@ const SHEET_ID = '17Nxa7YJah28ySjCmVtq8XJf_hoLqhUlT2I9wNTUw2S4';
 const LINE_ACCESS_TOKEN = 'ZDo/w/TP1R90TnVb6A3ZB4482+2ikAD2/imlwhvXTti9kezS35nRIfxZN+uSqUnOOjwWFTkqKIUSX7jtVh3hIOU88ZYFANLc44Q76ESFbybqbIcpnzajMyUgtft2OXRmXspYo136ckW4/QclBhtV3AdB04t89/1O/w1cDnyilFU=';
 const LAWYER_GROUP_ID = 'C0e8bc4aae31a5547c427bd4b7992efd7';
 
+const CHANNEL_ID = '2009590576';
+const CHANNEL_SECRET = '8a3a1adb11b3c0d689950b4582d928d5';
+const REDIRECT_URI = 'https://suttiphod1234.github.io/law-treetep/';
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-    const { fullName, phone, message, type, slip } = data;
     
-    // 1. Categorize Case
+    // 1. Check if it's a Line Webhook Event
+    if (data.events && data.events.length > 0) {
+      return handleLineWebhook(data);
+    }
+    
+    // 2. Form submission from Frontend
+    const { fullName, phone, message, type, slip, code } = data;
+    
+    // 3. Exchange OAuth Code for LINE userId
+    let userId = '';
+    if (code) {
+      userId = getLineUserIdFromCode(code);
+    }
+    
+    // 4. Categorize Case
     const category = categorizeCase(message);
     
-    // Determine free usage limit status
+    // 5. Determine free usage limit status
     let statusText = 'Private ⭐️';
     if (type === 'free') {
       const existingCount = getFreeCount(phone);
@@ -28,13 +45,13 @@ function doPost(e) {
       }
     }
     
-    // 2. Save to Google Sheet
-    saveToSheet(category, [new Date(), fullName, phone, message, type]);
+    // 6. Save to Google Sheet (Include userId)
+    saveToSheet(category, [new Date(), fullName, phone, message, type, userId]);
     
-    // 3. Send Flex Message to Lawyer group
+    // 7. Send Flex Message to Lawyer group
     sendToLawyerGroup(fullName, phone, message, statusText, category);
     
-    return ContentService.createTextOutput(JSON.stringify({ status: 'success', category }))
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success', category, userId }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
@@ -76,7 +93,7 @@ function saveToSheet(sheetName, rowData) {
   let sheet = ss.getSheetByName(sheetName);
   if (!sheet) {
     sheet = ss.insertSheet(sheetName);
-    sheet.appendRow(['วันที่', 'ชื่อ-สกุล', 'เบอร์โทร', 'ข้อความปรึกษา', 'ประเภทบริการ']);
+    sheet.appendRow(['วันที่', 'ชื่อ-สกุล', 'เบอร์โทร', 'ข้อความปรึกษา', 'ประเภทบริการ', 'LINE User ID']);
   }
   sheet.appendRow(rowData);
 }
@@ -173,4 +190,102 @@ function getHistoryFlex(lineId) {
       ]
     }
   };
+}
+
+// --- LINE Login & Webhook Functions ---
+
+function getLineUserIdFromCode(code) {
+  try {
+    const tokenUrl = 'https://api.line.me/oauth2/v2.1/token';
+    const payload = {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: REDIRECT_URI,
+      client_id: CHANNEL_ID,
+      client_secret: CHANNEL_SECRET
+    };
+    
+    const options = {
+      method: 'post',
+      payload: payload
+    };
+    
+    const tokenResponse = UrlFetchApp.fetch(tokenUrl, options);
+    const tokenData = JSON.parse(tokenResponse.getContentText());
+    
+    if (tokenData.id_token) {
+        const verifyUrl = 'https://api.line.me/oauth2/v2.1/verify';
+        const verifyOptions = {
+            method: 'post',
+            payload: {
+                id_token: tokenData.id_token,
+                client_id: CHANNEL_ID
+            }
+        };
+        const verifyResponse = UrlFetchApp.fetch(verifyUrl, verifyOptions);
+        const userInfo = JSON.parse(verifyResponse.getContentText());
+        return userInfo.sub;
+    }
+  } catch (e) {
+    console.error("Error exchanging code: " + e.toString());
+  }
+  return '';
+}
+
+function handleLineWebhook(webhookData) {
+  try {
+    const event = webhookData.events[0];
+    if (event.type === 'message' && event.message.type === 'text') {
+        const userId = event.source.userId;
+        const replyToken = event.replyToken;
+        
+        const userInfo = checkUserStatusByLineId(userId);
+        
+        if (userInfo && userInfo.isFreeUsed && !userInfo.isPrivate) {
+            const replyText = "โควต้าปรึกษาฟรี 1 ครั้งของคุณหมดแล้วครับ ⚖️\n\nโอนชำระค่าบริการ 500 บาท เพื่อพูดคุยและปรึกษากับทนายส่วนตัวอย่างต่อเนื่องได้เลยครับ 👇\n\nอัปโหลดสลิปได้ที่: " + REDIRECT_URI;
+            
+            UrlFetchApp.fetch('https://api.line.me/v2/bot/message/reply', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + LINE_ACCESS_TOKEN
+                },
+                payload: JSON.stringify({
+                    replyToken: replyToken,
+                    messages: [{ type: 'text', text: replyText }]
+                })
+            });
+        }
+    }
+  } catch (e) {
+      console.error(e);
+  }
+  return ContentService.createTextOutput(JSON.stringify({ status: 'success' })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function checkUserStatusByLineId(userId) {
+  if (!userId) return null;
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+  
+  let isFreeUsed = false;
+  let isPrivate = false;
+  
+  categories.forEach(cat => {
+    const sheet = ss.getSheetByName(cat);
+    if (sheet) {
+      const data = sheet.getDataRange().getValues();
+      data.forEach(row => {
+        if (row[5] === userId) {
+            if (row[4] === 'free') isFreeUsed = true;
+            if (row[4] === 'private') isPrivate = true;
+        }
+      });
+    }
+  });
+  
+  if (isFreeUsed || isPrivate) {
+      return { isFreeUsed, isPrivate };
+  }
+  return null;
 }

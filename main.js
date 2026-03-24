@@ -34,6 +34,15 @@ let consultationData = {
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+    // Check if returning from LINE Login
+    const urlParams = new URLSearchParams(window.location.search);
+    const authCode = urlParams.get('code');
+    
+    if (authCode) {
+        handleLineOAuthCallback(authCode);
+        return;
+    }
+
     // Auto-resize textarea
     searchInput.addEventListener('input', () => {
         if (searchInput.disabled) return;
@@ -203,37 +212,63 @@ closeFaqBtn.addEventListener('click', () => {
 const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxUIdDYEKZganlCagrT9E-PcM1UNonq1ASc7eNnb_eqjFSrg9PpGgzT0kakTEKU5a_c/exec';
 
 async function completeFlow() {
-    // Save to Google Sheets via Apps Script
-    console.log('Sending data to Back-end...', consultationData);
+    // Save state before redirecting to LINE Login
+    const dataToSave = { ...consultationData };
+    delete dataToSave.slip; // Remove File object to safely stringify
     
+    localStorage.setItem('pending_consultation', JSON.stringify(dataToSave));
+    
+    // LINE Login parameters
+    const clientId = '2009590576';
+    const redirectUri = encodeURIComponent('https://suttiphod1234.github.io/law-treetep/');
+    
+    const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=login&scope=profile%20openid`;
+    
+    alert('ระบบจะพาคุณไปล็อคอินด้วยบัญชี LINE เพื่อยืนยันตัวตนก่อนดำเนินการต่อครับ');
+    window.location.href = lineLoginUrl;
+}
+
+async function handleLineOAuthCallback(authCode) {
+    const pendingDataStr = localStorage.getItem('pending_consultation');
+    if (!pendingDataStr) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        checkLockState();
+        return;
+    }
+    
+    document.body.style.opacity = '0.5'; // Loading state
+    
+    let pendingData = {};
+    try { pendingData = JSON.parse(pendingDataStr); } catch(e) {}
+    
+    // Attach authorization code to be exchanged by backend
+    pendingData.code = authCode;
+    
+    console.log('Sending data and OAuth code to Back-end...', pendingData);
     try {
-        if (BACKEND_URL !== 'YOUR_APPS_SCRIPT_WEB_APP_URL') {
-            const response = await fetch(BACKEND_URL, {
-                method: 'POST',
-                body: JSON.stringify(consultationData),
-                mode: 'no-cors' // Apps Script requires no-cors sometimes or handled via Options
-            });
-            console.log('Data sent successfully');
-        }
+        await fetch(BACKEND_URL, {
+            method: 'POST',
+            body: JSON.stringify(pendingData),
+            mode: 'no-cors'
+        });
+        console.log('Data sent successfully');
     } catch (err) {
         console.error('Error sending data:', err);
     }
     
     // Update Front-end local status
-    if (consultationData.type === 'free') {
+    if (pendingData.type === 'free') {
         localStorage.setItem('has_used_free', 'true');
         isFreeUsed = true;
-    } else if (consultationData.type === 'private') {
+    } else if (pendingData.type === 'private') {
         localStorage.setItem('is_private', 'true');
         isPrivate = true;
     }
-    checkLockState();
     
-    // Redirect to Line OA
-    const lineLink = `https://lin.ee/WwUXKHR`;
+    localStorage.removeItem('pending_consultation');
     
-    alert('บันทึกข้อมูลสำเร็จ กำลังพาคุณไปที่ Line เพื่อเพิ่มเพื่อนทนาย...');
-    window.location.href = lineLink;
+    alert('ผูกบัญชีสำเร็จ! กำลังพาคุณไปที่ Line เพื่อไปคุยกับแอดมินทนาย...');
+    window.location.href = `https://lin.ee/WwUXKHR`;
 }
 
 // --- Helper Functions ---
