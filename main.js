@@ -171,7 +171,7 @@ closeFaqBtn.addEventListener('click', () => {
     hideModal(faqPopup);
 });
 
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbz-2SGJoZGKMEn8-pvZRvOaRg1f4riDC8LFM6ORvfKuZ7CLaLnaZZiixFeJW1nco9ID/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbwI6vqZDLlT52kZDjireOFj7Tw1kpYcaTrvmj_qVN07ld0hxXxrMMYvHJtHZcxDzw_V/exec';
 
 async function completeFlow() {
     // Save to Google Sheets via Apps Script
