@@ -117,8 +117,7 @@
                     <a href="#">เกี่ยวกับ</a>
                     <a href="#">การใช้งานเว็บไซต์</a>
                     <a href="#">ข้อมูลส่วนบุคคล</a>
-                    <a href="#" id="history-link" class="highlight-link"
-                        style="color:#d32f2f; font-weight:bold;">ประวัติการใช้งาน</a>
+                    <a href="history.html" target="_blank">ประวัติการใช้งาน</a>
                     <a href="#">รู้เรื่องกฎหมาย</a>
                     <a href="#" id="faq-link">ถามตอบ</a>
                 </div>
@@ -161,36 +160,9 @@
             <div id="seizure">คดียึดทรัพย์</div>
             <div id="breach">คดีผิดสัญญา</div>
         </div>
-        </div>
+    </div>
 
-        <!-- History Popup -->
-        <div id="history-popup" class="modal hidden">
-            <div class="modal-content" style="max-width: 600px; padding: 2rem;">
-                <div class="history-header" style="text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                    <h3 style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"><i class="fas fa-history"></i> ประวัติการใช้งาน</h3>
-                    <p style="font-size: 0.95rem; color: #666;">ประวัติการขอคำปรึกษาของคุณ</p>
-                    <button class="close-history btn-close" style="position: absolute; top: -10px; right: -10px; background: #f5f5f5; border: none; font-size: 1.2rem; cursor: pointer; color: #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s;"><i class="fas fa-times"></i></button>
-                </div>
 
-                <div id="history-login-section" class="text-center" style="padding: 2rem 0; text-align: center;">
-                    <i class="fab fa-line" style="font-size: 4.5rem; color: #00B900; margin-bottom: 1rem;"></i>
-                    <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">กรุณายืนยันตัวตน</h4>
-                    <p style="color: #666; margin-bottom: 2rem; font-size: 0.95rem;">เข้าสู่ระบบด้วย LINE เพื่อดึงประวัติส่วนตัวของคุณ</p>
-                    <button id="login-history-btn" class="line-btn" style="background-color: #00B900; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; font-size: 1.05rem;">
-                        <i class="fab fa-line" style="font-size: 1.4rem;"></i> ล็อกอินด้วย LINE
-                    </button>
-                </div>
-
-                <div id="history-loading-section" class="hidden" style="padding: 3rem 0; text-align: center; color: var(--primary-color);">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p style="margin-top: 1rem; font-weight: bold; font-size: 1.1rem;">กำลังดึงข้อมูลอย่างปลอดภัย...</p>
-                </div>
-
-                <div id="history-content-section" class="hidden" style="max-height: 400px; overflow-y: auto; text-align: left; padding-right: 15px;">
-                    <!-- History groups will be injected here via JS -->
-                </div>
-            </div>
-        </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

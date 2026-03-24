@@ -33,15 +33,10 @@ let consultationData = {
 document.addEventListener('DOMContentLoaded', () => {
     // Check if returning from LINE Login
     const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get('code');
-    const state = urlParams.get('state');
-
-    if (code) {
-        if (state === 'history') {
-            handleHistoryCallback(code);
-        } else {
-            handleLineOAuthCallback(code);
-        }
+    const authCode = urlParams.get('code');
+    
+    if (authCode) {
+        handleLineOAuthCallback(authCode);
         return;
     }
 
@@ -211,41 +206,9 @@ faqLink.addEventListener('click', (e) => {
 closeFaqBtn.addEventListener('click', () => {
     hideModal(faqPopup);
 });
-const historyLink = document.getElementById('history-link');
-const historyPopup = document.getElementById('history-popup');
-const closeHistoryBtn = document.querySelector('.close-history');
-const loginHistoryBtn = document.getElementById('login-history-btn');
 
-if (historyLink) {
-    historyLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        showModal(historyPopup);
-    });
-}
-if (closeHistoryBtn) {
-    closeHistoryBtn.addEventListener('click', () => {
-        hideModal(historyPopup);
-    });
-}
-if (loginHistoryBtn) {
-    loginHistoryBtn.addEventListener('click', () => {
-        Swal.fire({
-            icon: 'info',
-            title: 'ดึงข้อมูลประวัติ',
-            text: 'ระบบกำลังพาคุณไปล็อคอินLINE เพื่อดึงข้อมูลประวัติ...',
-            timer: 2000,
-            showConfirmButton: false,
-            allowOutsideClick: false
-        }).then(() => {
-            const clientId = '2009590576';
-            const redirectUri = encodeURIComponent('https://suttiphod1234.github.io/law-treetep/');
-            const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&state=history&scope=profile%20openid`;
-            window.location.href = lineLoginUrl;
-        });
-    });
-}
 
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbyqJH_XTfp8bP6PK76F3Fj1aA93Hgw5FcOww3DQJLxjX154usIeExkdNs4A-Dvt-XO6/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbytNdDjhtEU6qaufO_zHYUgLlSXu0dbsDELJVHUy-TRd8JoDNmcggpCExlitjq98E2n/exec';
 
 async function completeFlow() {
     // Save state before redirecting to LINE Login
@@ -323,99 +286,7 @@ async function handleLineOAuthCallback(authCode) {
     });
 }
 
-// History API Handler
-async function handleHistoryCallback(authCode) {
-    window.history.replaceState({}, document.title, window.location.pathname);
-    showModal(historyPopup);
-    
-    document.getElementById('history-login-section').classList.add('hidden');
-    document.getElementById('history-loading-section').classList.remove('hidden');
-    
-    try {
-        const response = await fetch(`${BACKEND_URL}?action=get_history&code=${authCode}`);
-        const result = await response.json();
-        
-        document.getElementById('history-loading-section').classList.add('hidden');
-        document.getElementById('history-content-section').classList.remove('hidden');
 
-        if (result.status === 'success') {
-            renderHistory(result.data);
-        } else {
-            throw new Error(result.message || 'Unknown Error');
-        }
-    } catch (error) {
-        document.getElementById('history-loading-section').classList.add('hidden');
-        document.getElementById('history-login-section').classList.remove('hidden');
-        console.error('Error fetching history:', error);
-        Swal.fire({
-            icon: 'error',
-            title: 'ดึงข้อมูลไม่สำเร็จ',
-            text: 'ไม่สามารถดึงข้อมูลประวัติการปรึกษาได้ในขณะนี้ การเข้าสู่ระบบอาจหมดอายุ หรือระบบขัดข้อง',
-            confirmButtonColor: '#d32f2f'
-        });
-    }
-}
-
-function renderHistory(groupedData) {
-    const historySection = document.getElementById('history-content-section');
-    historySection.innerHTML = ''; 
-    const categories = Object.keys(groupedData);
-    
-    if (categories.length === 0) {
-        historySection.innerHTML = `
-            <div style="text-align: center; padding: 2rem; color: #666; border: 2px dashed #ccc; border-radius: 8px;">
-                <i class="fas fa-folder-open fa-3x" style="margin-bottom: 1rem; color: #ccc;"></i>
-                <h4>ไม่พบประวัติการใช้งาน</h4>
-                <p style="font-size: 0.9rem; margin-top: 0.5rem;">คุณยังไม่มีประวัติการสอบถามคดีในระบบครับ</p>
-            </div>
-        `;
-        return;
-    }
-
-    categories.forEach(category => {
-        const items = groupedData[category];
-        if (!items || items.length === 0) return;
-
-        const catDiv = document.createElement('div');
-        catDiv.style.marginBottom = '1.5rem';
-        
-        const catTitle = document.createElement('h4');
-        catTitle.innerHTML = `<i class="fas fa-bookmark" style="color:var(--primary-color)"></i> หมวด: ${category} <span style="font-size: 0.9rem; color:#666; font-weight:normal;">(${items.length} รายการ)</span>`;
-        catTitle.style.marginBottom = '0.75rem';
-        catTitle.style.borderBottom = '1px solid #eee';
-        catTitle.style.paddingBottom = '0.5rem';
-        catTitle.style.color = 'var(--primary-color)';
-        catDiv.appendChild(catTitle);
-
-        items.forEach(item => {
-            const card = document.createElement('div');
-            card.style.cssText = 'background: var(--bg-color); border-left: 4px solid var(--accent-orange); padding: 1rem; border-radius: 4px; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);';
-            
-            const dateObj = new Date(item.date);
-            const dateStr = !isNaN(dateObj) ? dateObj.toLocaleDateString('th-TH', {
-                year: 'numeric', month: 'short', day: 'numeric',
-                hour: '2-digit', minute: '2-digit'
-            }) : 'ไม่ระบุวันที่';
-
-            const isPrivate = item.type === 'private';
-            const badgeClass = isPrivate ? 'background: #e8f5e9; color: #2e7d32;' : 'background: #e8eaf6; color: #1a237e;';
-            const badgeText = isPrivate ? '<i class="fas fa-star"></i> ทนายส่วนตัว (Private)' : '<i class="fas fa-comment"></i> บริการฟรี';
-
-            card.innerHTML = `
-                <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-                    <span style="display:inline-block; padding: 3px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: bold; ${badgeClass}">${badgeText}</span>
-                    <span style="font-size: 0.8rem; color: #666;"><i class="far fa-clock"></i> ${dateStr}</span>
-                </div>
-                <div style="font-size: 0.95rem; color: var(--text-color); line-height: 1.5; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 6px;">
-                    ${item.message.replace(/\\n/g, '<br>')}
-                </div>
-            `;
-            catDiv.appendChild(card);
-        });
-
-        historySection.appendChild(catDiv);
-    });
-}
 
 
 // --- Helper Functions ---
