@@ -64,13 +64,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function verifySlipAPI(file) {
-    // 💡 ระบบจำลองการตรวจสลิป (Mock) หากยังไม่มี API KEY
+    // 💡 ระบบจำลองการตรวจสลิป (Mock) เมื่อยังไม่มี API KEY โดยจะพยายามสแกนหา QR ในภาพ
     if (!SLIPOK_API_KEY) {
+        const hasQR = await scanLocalQR(file);
+        if (!hasQR) {
+            alert('ไม่พบ QR Code หรือไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้');
+            return false;
+        }
         return new Promise(resolve => {
             setTimeout(() => {
                 // สมมติว่าอ่านสลิปแล้วข้อมูลถูกต้อง
                 resolve(true);
-            }, 1500);
+            }, 1000);
         });
     }
 
@@ -101,14 +106,14 @@ async function verifySlipAPI(file) {
             const isMatch = receiverName.includes('สุทธิพจน์') || receiverName.includes('SUTTHIPHOD') || receiverName.includes('ศรีแสนยงค์') || receiverName.includes('มณี') || receiverName.includes('SHOP') || receiverName.includes('MANEE');
             
             if (!isMatch) {
-               alert('ชื่อบัญชีผู้รับเงินไม่ตรงกับที่กำหนด (พบชื่อบัญชี: ' + receiverName + ')');
+               alert('ชื่อบัญชีผู้รับเงินไม่ตรงกับที่กำหนด (พบชื่อบัญชี: ' + receiverName + ')\\nหรือไม่ใช่สลิปของร้านค้าแม่มณี');
                return false;
             }
 
             return true;
         } else {
             console.error('Slip Verify API Error:', result.message);
-            alert('สลิปนี้ตรวจสอบไม่ผ่าน: ' + result.message);
+            alert('ไม่ใช่ไฟล์ที่สามารถตรวจสอบสลิปการโอนได้ หรือสลิปนี้ตรวจสอบไม่ผ่าน: ' + result.message);
             return false;
         }
     } catch (error) {
@@ -116,4 +121,39 @@ async function verifySlipAPI(file) {
         alert('ระบบเครือข่ายมีปัญหา ไม่สามารถตรวจสอบสลิปได้ในขณะนี้');
         return false;
     }
+}
+
+// ฟังก์ชันสแกน QR ภายในเครื่อง (กรณีไม่มี API Key ใช้ดักไฟล์ขยะ)
+function scanLocalQR(file) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const img = new Image();
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = img.width;
+                canvas.height = img.height;
+                context.drawImage(img, 0, 0, img.width, img.height);
+                
+                try {
+                    const imageData = context.getImageData(0, 0, img.width, img.height);
+                    if (window.jsQR) {
+                        const code = jsQR(imageData.data, imageData.width, imageData.height);
+                        if (code && code.data.length > 10) {
+                            resolve(true); // พบ QR Code ในภาพ
+                        } else {
+                            resolve(false); // ไม่พบ QR Code
+                        }
+                    } else {
+                        resolve(true); // ข้ามไปถ้าโหลด jsQR ไม่สำเร็จ
+                    }
+                } catch(err) {
+                    resolve(false);
+                }
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
 }
