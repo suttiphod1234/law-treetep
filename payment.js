@@ -96,12 +96,12 @@ async function verifySlipAPI(file) {
                 return false;
             }
             
-            // เช็คผู้รับว่าชื่อคุณสุทธิพจน์หรือไม่
+            // เช็คผู้รับว่าเป็น "SCB มณี SHOP" หรือ "สุทธิพจน์" หรือไม่
             const receiverName = result.data.receiver.displayName || result.data.receiver.name || '';
-            const isMatch = receiverName.includes('สุทธิพจน์') || receiverName.includes('SUTTHIPHOD') || receiverName.includes('ศรีแสนยงค์');
+            const isMatch = receiverName.includes('สุทธิพจน์') || receiverName.includes('SUTTHIPHOD') || receiverName.includes('ศรีแสนยงค์') || receiverName.includes('มณี') || receiverName.includes('SHOP') || receiverName.includes('MANEE');
             
             if (!isMatch) {
-               alert('ชื่อบัญชีผู้รับเงินไม่ตรงกับ "สุทธิพจน์ ศรีแสนยงค์" โอนไปที่: ' + receiverName);
+               alert('ชื่อบัญชีผู้รับเงินไม่ตรงกับที่กำหนด (พบชื่อบัญชี: ' + receiverName + ')');
                return false;
             }
 
