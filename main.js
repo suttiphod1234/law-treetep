@@ -117,6 +117,7 @@ privateConsultBtn.addEventListener('click', () => {
 function handleServiceSelection(type) {
     const name = document.getElementById('full-name').value;
     const phone = document.getElementById('phone').value;
+    const lineId = document.getElementById('line-id').value;
 
     if (!name || !phone) {
         alert('กรุณากรอกชื่อและเบอร์โทรศัพท์');
@@ -125,6 +126,7 @@ function handleServiceSelection(type) {
 
     consultationData.fullName = name;
     consultationData.phone = phone;
+    consultationData.lineId = lineId;
     consultationData.type = type;
 
     if (type === 'free') {
