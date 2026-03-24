@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ปรึกษาคดีความทั่วไป - สำนักกฎหมายตรีเทพทนายความ</title>
+    <meta name="description"
+        content="บริการให้คำปรึกษากฎหมายออนไลน์ ทนายอาสา ฟรี และทนายส่วนตัว โดยสำนักกฎหมายตรีเทพทนายความ">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap"
+        rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Main Landing -->
+        <main class="hero">
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-balance-scale"></i>
+                    <h1>"เพื่อประโยชน์แห่งความยุติธรรม"</h1>
+                </div>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <textarea id="search-input" placeholder="พิมพ์สิ่งที่ต้องการปรึกษา : ในช่องนี้"
+                            rows="1"></textarea>
+                        <div class="search-actions">
+                            <button id="voice-btn" title="พิมพ์ด้วยเสียง">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button id="submit-btn" disabled>
+                                ส่ง <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hero-sub">ให้คำปรึกษา รับว่าความทั่วราชอาณาจักร</p>
+                <p>สำนักกฎหมายตรีเทพทนายความ</p>
+            </div>
+        </main>
+
+        <!-- Popup Confirmation -->
+        <div id="confirm-popup" class="modal hidden">
+            <div class="modal-content">
+                <h3>ยืนยันข้อความปรึกษา</h3>
+                <div class="consultation-preview" id="preview-text"></div>
+                <div class="modal-actions">
+                    <button id="edit-btn" class="btn-outline">แก้ไขข้อความ</button>
+                    <div class="accept-container">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="accept-check">
+                            ฉันยอมรับข้อมูลเป็นเพียงการให้คำปรึกษาเท่านั้น
+                        </label>
+                        <button id="accept-btn" class="btn-primary" disabled>ยอมรับ</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Popup -->
+        <div id="contact-popup" class="modal hidden">
+            <div class="modal-content">
+                <h3>ข้อมูลการติดต่อกลับ</h3>
+                <form id="contact-form">
+                    <div class="form-group">
+                        <label for="full-name">ชื่อ-สกุล</label>
+                        <input type="text" id="full-name" required placeholder="นาย/นาง/นางสาว ...">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">เบอร์โทรศัพท์</label>
+                        <input type="tel" id="phone" required placeholder="08x-xxxxxxx">
+                    </div>
+                    <div class="service-selection">
+                        <button type="button" id="free-consult" class="btn-option">
+                            <span>ปรึกษาทนายทั่วไป</span>
+                            <small>(ฟรี)</small>
+                        </button>
+                        <button type="button" id="private-consult" class="btn-option highlight">
+                            <span>ปรึกษาทนายส่วนตัว</span>
+                            <small>(ค่าบริการ 500 บาท)</small>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Payment Step -->
+        <div id="payment-popup" class="modal hidden">
+            <div class="modal-content">
+                <h3>ชำระเงินค่าบริการ</h3>
+                <div class="payment-info">
+                    <p>จำนวนเงิน: <strong>500 บาท</strong></p>
+                    <div class="qr-placeholder" id="qr-container">
+                        <!-- QR Code will be generated here -->
+                        <div class="qr-box">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=promptpay://0613055625"
+                                alt="PromptPay QR">
+                            <span>พร้อมเพย์: 0613055625</span>
+                        </div>
+                    </div>
+                    <p class="bank-info">ธนาคารกรุงไทย: 6611340823 (สุทธิพจน์ ศรีแสนยงค์)</p>
+                    <div class="file-upload">
+                        <label for="slip-upload">แนบสลิปการโอนเงิน</label>
+                        <input type="file" id="slip-upload" accept="image/*">
+                    </div>
+                </div>
+                <button id="final-confirm" class="btn-primary" disabled>ยืนยันและเพิ่มเพื่อน Line</button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-container">
+                <div class="footer-info">
+                    <h3>สำนักกฎหมายทนายความตรีเทพพิทักษ์</h3>
+                    <p>ที่อยู่ : 143 หมู่ 10 ตำบลสำราญใต้ อำเภอสามชัย จังหวัดกาฬสินธุ์</p>
+                    <p>เบอร์โทร : <a href="tel:0863624188">0863624188</a></p>
+                </div>
+                <div class="footer-social">
+                    <p>ติดตามข่าวสาร</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-line"></i></a>
+                    </div>
+                </div>
+                <div class="footer-menu">
+                    <a href="#">เกี่ยวกับ</a>
+                    <a href="#">การใช้งานเว็บไซต์</a>
+                    <a href="#">ข้อมูลส่วนบุคคล</a>
+                    <a href="#">รู้เรื่องกฎหมาย</a>
+                    <a href="#" id="faq-link">ถามตอบ</a>
+                </div>
+            </div>
+        </footer>
+
+        <!-- FAQ Popup -->
+        <div id="faq-popup" class="modal hidden">
+            <div class="modal-content faq-content">
+                <h3>ถาม-ตอบ (FAQ)</h3>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">1. ปรึกษาทนายฟรีจริงไหม?</div>
+                        <div class="faq-answer">ฟรีครับ
+                            สำหรับการให้ข้อมูลเบื้องต้นและแนวทางการแก้ปัญหาทางกฎหมายเบื้องต้น</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">2. ทนายส่วนตัว 500 บาท ครอบคลุมอะไรบ้าง?</div>
+                        <div class="faq-answer">
+                            ครอบคลุมการวิเคราะห์เอกสารแบบเชิงลึกและให้คำปรึกษาแบบตัวต่อตัวทางโทรศัพท์หรือ Line สูงสุด 30
+                            นาที</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">3. เก็บข้อมูลความลับลูกความอย่างไร?</div>
+                        <div class="faq-answer">เรายึดถือจรรยาบรรณทนายความ
+                            ข้อมูลทุกอย่างจะถูกเก็บเป็นความลับและไม่เปิดเผยต่อบุคคลภายนอก</div>
+                    </div>
+                </div>
+                <button class="btn-primary close-faq" style="margin-top: 20px;">ปิดหน้าต่าง</button>
+            </div>
+        </div>
+
+        <!-- Hidden Knowledge Pages Section (Hidden as requested) -->
+        <div class="hidden-pages hidden">
+            <div id="criminal-law">คดีอาญา</div>
+            <div id="civil-law">คดีแพ่ง</div>
+            <div id="inheritance">มรดก</div>
+            <div id="land">ที่ดิน</div>
+            <div id="accident">พรบ อุบัติเหตุ</div>
+            <div id="seizure">ยึดทรัพย์</div>
+            <div id="breach">ผิดสัญญา</div>
+        </div>
+    </div>
+    <script type="module" src="./main.js"></script>
+</body>
+
+</html>
