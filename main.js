@@ -20,10 +20,14 @@ const faqPopup = document.getElementById('faq-popup');
 const closeFaqBtn = document.querySelector('.close-faq');
 
 // State
+let isFreeUsed = localStorage.getItem('has_used_free') === 'true';
+let isPrivate = localStorage.getItem('is_private') === 'true';
+
 let consultationData = {
     message: '',
     fullName: '',
     phone: '',
+    lineId: '',
     type: '', // 'free' or 'private'
     slip: null
 };
@@ -32,6 +36,7 @@ let consultationData = {
 document.addEventListener('DOMContentLoaded', () => {
     // Auto-resize textarea
     searchInput.addEventListener('input', () => {
+        if (searchInput.disabled) return;
         searchInput.style.height = 'auto';
         searchInput.style.height = (searchInput.scrollHeight) + 'px';
         submitBtn.disabled = searchInput.value.trim() === '';
@@ -41,10 +46,39 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey && !submitBtn.disabled) {
             e.preventDefault();
-            handleSubmit();
+            if (isFreeUsed && !isPrivate) {
+                handleUpgradeFlow();
+            } else {
+                handleSubmit();
+            }
         }
     });
+
+    checkLockState();
 });
+
+function checkLockState() {
+    if (isFreeUsed && !isPrivate) {
+        searchInput.disabled = true;
+        searchInput.placeholder = "สิทธิ์ปรึกษาฟรี 1 ครั้งของคุณหมดแล้ว กรุณาอัปเกรดเป็นทนายส่วนตัวเพื่อปรึกษาต่อครับ";
+        searchInput.value = '';
+        voiceBtn.style.display = 'none';
+        submitBtn.innerHTML = 'อัปเกรดเป็น Private (500฿)';
+        submitBtn.style.backgroundColor = '#d32f2f'; // Highlight as an upgrade button
+        submitBtn.disabled = false;
+        
+        submitBtn.onclick = handleUpgradeFlow;
+    } else {
+        searchInput.disabled = false;
+        searchInput.placeholder = "พิมพ์สิ่งที่ต้องการปรึกษา : ในช่องนี้";
+        voiceBtn.style.display = 'block';
+        submitBtn.innerHTML = 'ส่ง <i class="fas fa-paper-plane"></i>';
+        submitBtn.style.backgroundColor = '';
+        submitBtn.disabled = searchInput.value.trim() === '';
+        
+        submitBtn.onclick = handleSubmit;
+    }
+}
 
 // --- Voice Recognition ---
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -84,12 +118,18 @@ if (SpeechRecognition) {
 // --- Flow Functions ---
 
 function handleSubmit() {
+    document.getElementById('free-consult').style.display = 'flex';
     consultationData.message = searchInput.value.trim();
     previewText.textContent = consultationData.message;
     showModal(confirmPopup);
 }
 
-submitBtn.addEventListener('click', handleSubmit);
+function handleUpgradeFlow(e) {
+    if (e) e.preventDefault();
+    consultationData.message = "ลูกค้าแจ้งโอนเงิน: ขออัปเกรดเป็นบริการทนายส่วนตัว (500 บาท) เพื่อปรึกษาต่อเนื่อง";
+    document.getElementById('free-consult').style.display = 'none';
+    showModal(contactPopup);
+}
 
 editBtn.addEventListener('click', () => {
     hideModal(confirmPopup);
@@ -124,16 +164,6 @@ function handleServiceSelection(type) {
         return;
     }
 
-    if (type === 'free') {
-        const freeCount = parseInt(localStorage.getItem('free_count_' + phone) || '0', 10);
-        if (freeCount >= 2) {
-            alert('คุณใช้โควต้าปรึกษาฟรีครบ 2 ครั้งแล้ว กรุณาเลือก "ปรึกษาทนายส่วนตัว" ชำระค่าบริการ 500 บาท เพื่อรับบริการต่อครับ');
-            document.getElementById('free-consult').classList.remove('highlight');
-            document.getElementById('private-consult').classList.add('highlight');
-            return;
-        }
-    }
-
     consultationData.fullName = name;
     consultationData.phone = phone;
     consultationData.lineId = lineId;
@@ -143,7 +173,6 @@ function handleServiceSelection(type) {
         const freeCount = parseInt(localStorage.getItem('free_count_' + phone) || '0', 10);
         localStorage.setItem('free_count_' + phone, freeCount + 1);
         completeFlow();
-
     } else {
         hideModal(contactPopup);
         showModal(paymentPopup);
@@ -189,6 +218,16 @@ async function completeFlow() {
     } catch (err) {
         console.error('Error sending data:', err);
     }
+    
+    // Update Front-end local status
+    if (consultationData.type === 'free') {
+        localStorage.setItem('has_used_free', 'true');
+        isFreeUsed = true;
+    } else if (consultationData.type === 'private') {
+        localStorage.setItem('is_private', 'true');
+        isPrivate = true;
+    }
+    checkLockState();
     
     // Redirect to Line OA
     const lineLink = `https://lin.ee/WwUXKHR`;
