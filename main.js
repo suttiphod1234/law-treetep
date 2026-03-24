@@ -209,7 +209,7 @@ closeFaqBtn.addEventListener('click', () => {
     hideModal(faqPopup);
 });
 
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxUIdDYEKZganlCagrT9E-PcM1UNonq1ASc7eNnb_eqjFSrg9PpGgzT0kakTEKU5a_c/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxadhGjfQ6WzDuw-5GdsfMYWG_Mp8Zrge01XfA1ms57wLf6Z1N1JlHzpSyNBGEcfTCm/exec';
 
 async function completeFlow() {
     // Save state before redirecting to LINE Login
