@@ -115,6 +115,16 @@ function sendToLawyerGroup(name, phone, message, statusText, category) {
           },
           "style": "primary",
           "color": "#1a237e"
+        },
+        {
+          "type": "button",
+          "action": {
+            "type": "clipboard",
+            "label": "คัดลอกคำทักทาย",
+            "clipboardText": "สวัสดีคุณทนาย"
+          },
+          "style": "secondary",
+          "margin": "sm"
         }
       ]
     }
