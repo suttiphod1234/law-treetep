@@ -110,8 +110,8 @@ function sendToLawyerGroup(name, phone, message, statusText, category) {
           "type": "button",
           "action": {
             "type": "uri",
-            "label": "ตอบคำถาม",
-            "uri": `https://line.me/R/oaMessage/@440dtbxo/?${encodeURIComponent("สวัสดีครับ ผมทนาย...")}`
+            "label": "เข้าไปตอบใน LINE OA",
+            "uri": "https://chat.line.biz/"
           },
           "style": "primary",
           "color": "#1a237e"
