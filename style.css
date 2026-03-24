@@ -295,64 +295,53 @@ body {
 
 /* Footer Styling */
 footer {
-    background: var(--footer-bg);
-    padding: 60px 0 20px;
-    border-top: 1px solid #ddd;
+    background: #f8f9fa;
+    padding: 20px 0;
+    border-top: 1px solid #dadce0;
+    font-size: 0.9rem;
+    color: #5f6368;
 }
 
-.footer-container {
+.footer-simple {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
-.footer-info h3 {
-    color: var(--primary-color);
-    margin-bottom: 20px;
-}
-
-.footer-info p {
-    margin-bottom: 10px;
-    color: #555;
-}
-
-.footer-social p {
-    font-weight: 700;
-    margin-bottom: 15px;
-}
-
-.social-icons {
+.footer-links {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
-.social-icons a {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-    transition: color 0.3s;
-}
-
-.social-icons a:hover {
-    color: var(--accent-color);
-}
-
-.footer-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.footer-menu a {
+.footer-links a {
     text-decoration: none;
-    color: #555;
-    transition: color 0.3s;
+    color: #5f6368;
+    transition: color 0.2s;
 }
 
-.footer-menu a:hover {
-    color: var(--primary-color);
+.footer-links a:hover {
+    color: #202124;
+}
+
+.footer-copyright p {
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .footer-simple {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+    .footer-links {
+        justify-content: center;
+    }
 }
 
 .hidden {
