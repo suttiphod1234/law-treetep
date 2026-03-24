@@ -69,7 +69,7 @@ function checkLockState() {
         searchInput.placeholder = "สิทธิ์ปรึกษาฟรี 1 ครั้งของคุณหมดแล้ว กรุณาอัปเกรดเป็นทนายส่วนตัวเพื่อปรึกษาต่อครับ";
         searchInput.value = '';
         voiceBtn.style.display = 'none';
-        submitBtn.innerHTML = 'อัปเกรดเป็น Private (500฿)';
+        submitBtn.innerHTML = 'อัปเกรดเป็น Private (1฿)';
         submitBtn.style.backgroundColor = '#d32f2f'; // Highlight as an upgrade button
         submitBtn.disabled = false;
         
@@ -132,7 +132,7 @@ function handleSubmit() {
 
 function handleUpgradeFlow(e) {
     if (e) e.preventDefault();
-    consultationData.message = "ลูกค้าแจ้งโอนเงิน: ขออัปเกรดเป็นบริการทนายส่วนตัว (500 บาท) เพื่อปรึกษาต่อเนื่อง";
+    consultationData.message = "ลูกค้าแจ้งโอนเงิน: ขออัปเกรดเป็นบริการทนายส่วนตัว (1 บาท) เพื่อปรึกษาต่อเนื่อง";
     document.getElementById('free-consult').style.display = 'none';
     showModal(contactPopup);
 }
@@ -196,8 +196,7 @@ faqLink.addEventListener('click', (e) => {
 closeFaqBtn.addEventListener('click', () => {
     hideModal(faqPopup);
 });
-
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxadhGjfQ6WzDuw-5GdsfMYWG_Mp8Zrge01XfA1ms57wLf6Z1N1JlHzpSyNBGEcfTCm/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbxZeONc0QXJ3VPeOwj9kM7mH620xbKgm5_3WQHt3fEsvYpCK_P4D9K0VdhLL1QMVnQa/exec';
 
 async function completeFlow() {
     // Save state before redirecting to LINE Login

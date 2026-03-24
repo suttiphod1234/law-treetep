@@ -242,7 +242,7 @@ function handleLineWebhook(webhookData) {
         const userInfo = checkUserStatusByLineId(userId);
         
         if (userInfo && userInfo.isFreeUsed && !userInfo.isPrivate) {
-            const replyText = "โควต้าปรึกษาฟรี 1 ครั้งของคุณหมดแล้วครับ ⚖️\n\nโอนชำระค่าบริการ 500 บาท เพื่อพูดคุยและปรึกษากับทนายส่วนตัวอย่างต่อเนื่องได้เลยครับ 👇\n\nอัปโหลดสลิปได้ที่: " + REDIRECT_URI;
+            const replyText = "โควต้าปรึกษาฟรี 1 ครั้งของคุณหมดแล้วครับ ⚖️\n\nโอนชำระค่าบริการ 1 บาท เพื่อพูดคุยและปรึกษากับทนายส่วนตัวอย่างต่อเนื่องได้เลยครับ 👇\n\nอัปโหลดสลิปได้ที่: " + REDIRECT_URI;
             
             UrlFetchApp.fetch('https://api.line.me/v2/bot/message/reply', {
                 method: 'post',
