@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="imag/favicon.ico">
+    <title>เกี่ยวกับสำนักกฎหมาย - สำนักกฎหมายตรีเทพทนายความ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+
+        .about-page-container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 3rem 2rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-top: 6px solid var(--primary-color);
+        }
+
+        .about-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-header h1 {
+            color: var(--primary-color);
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .about-header p {
+            font-size: 1.3rem;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .about-section {
+            margin-bottom: 4rem;
+        }
+
+        .about-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 1rem;
+        }
+
+        .about-section h2 i {
+            color: var(--primary-color);
+        }
+
+        /* Value Cards Grid */
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .value-card {
+            background: #fff;
+            padding: 2.5rem 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.04);
+            border: 1px solid #f5f5f5;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .value-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-color: #e0e0e0;
+        }
+
+        .value-card i {
+            background: var(--primary-color);
+            color: white;
+            width: 70px;
+            height: 70px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(11, 29, 66, 0.2);
+        }
+
+        .value-card h3 {
+            color: var(--text-color);
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* History & Vision Section */
+        .history-content {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            color: #444;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            background: #f8f9fa;
+            padding: 2.5rem;
+            border-radius: var(--radius);
+            border-left: 5px solid var(--accent-orange);
+        }
+
+        .history-content p {
+            margin: 0;
+        }
+
+        .quote-box {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            background-color: #f0f4f8;
+            border-radius: var(--radius);
+            position: relative;
+        }
+
+        .quote-box::before {
+            content: "\201C";
+            font-size: 5rem;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            color: rgba(11, 29, 66, 0.1);
+            font-family: serif;
+        }
+
+        /* Contact Line */
+        .contact-cta {
+            text-align: center;
+            padding: 3rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-lg);
+            color: white;
+            margin-top: 2rem;
+        }
+
+        .contact-cta h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-cta p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .btn-line-cta {
+            background-color: #00B900;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 185, 0, 0.4);
+            transition: all 0.3s;
+        }
+
+        .btn-line-cta:hover {
+            transform: translateY(-3px);
+            background-color: #009900;
+            box-shadow: 0 6px 20px rgba(0, 185, 0, 0.6);
+        }
+
+        .back-nav {
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+        
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        
+        .back-nav a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .about-page-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .about-header h1 {
+                font-size: 2.2rem;
+            }
+            .about-header p {
+                font-size: 1.1rem;
+            }
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-cta {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                    <img src="imag/logo ตรีเทพพิทักษ์.png" alt="โลโก้ สำนักกฎหมายตรีเทพทนายความ" style="height: 40px; width: auto; object-fit: contain;">
+                    <h2>สำนักกฎหมายตรีเทพทนายความ</h2>
+                </a>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="about-page-container">
+                
+                <div class="back-nav">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก</a>
+                </div>
+
+                <!-- Header -->
+                <div class="about-header">
+                    <h1>เกี่ยวกับสำนักกฎหมาย</h1>
+                    <p>สำนักกฎหมายตรีเทพทนายความ ก่อตั้งขึ้นด้วยปณิธานและความมุ่งมั่นที่จะให้บริการทางกฎหมายอย่างมืออาชีพ ซื่อสัตย์ และโปร่งใส แก่ประชาชนและองค์กรธุรกิจ</p>
+                </div>
+
+                <div class="quote-box">
+                    "เพื่อประโยชน์แห่งความยุติธรรม"
+                </div>
+
+                <!-- Vision & History -->
+                <div class="about-section">
+                    <h2><i class="fas fa-landmark"></i> ประวัติและวิสัยทัศน์</h2>
+                    <div class="history-content">
+                        <p><strong>สำนักกฎหมายตรีเทพทนายความ</strong> เติบโตจากการรวมตัวของทีมทนายความและนักวิชาการทางกฎหมายที่มีประสบการณ์ คอยดูแลและให้คำปรึกษาแก่ผู้ที่มีความเดือดร้อนทางด้านอรรถคดีด้วยเจตนารมณ์ที่เป็นธรรม</p>
+                        <p>เรามุ่งเน้นการใช้เทคโนโลยีสมัยใหม่เข้ามาเป็นส่วนหนึ่งของการทำงาน เพื่อให้คำปรึกษาทางกฎหมายเข้าถึงได้ง่าย รวดเร็ว และเป็นระบบ (Legal Tech) ลูกความสามารถติดตามความคืบหน้าของคดีและขอรับคำปรึกษาเบื้องต้นผ่านระบบออนไลน์ได้ทุกที่ทุกเวลา ช่วยลดภาระค่าใช้จ่ายในการเดินทาง และประหยัดเวลาอันมีค่าของท่าน</p>
+                        <p>ด้วยประวัติการทำงานที่ยาวนานและการยึดมั่นในอุดมการณ์ความยุติธรรม เราได้รับความไว้วางใจจากลูกความทั้งคดีแพ่ง คดีอาญา คดีครอบครัว และคดีธุรกิจต่างๆ อย่างล้นหลาม</p>
+                    </div>
+                </div>
+
+                <!-- Core Values -->
+                <div class="about-section">
+                    <h2><i class="fas fa-star"></i> จุดเด่นและพันธกิจของเรา</h2>
+                    <div class="values-grid">
+                        <div class="value-card">
+                            <i class="fas fa-scale-balanced"></i>
+                            <h3>ความยุติธรรมและชัดเจน</h3>
+                            <p>ให้คำปรึกษาบนพื้นฐานของข้อเท็จจริงทางกฎหมายที่ถูกต้อง ไม่หลอกลวง มุ่งเน้นการประเมินรูปคดีตามความเป็นจริง</p>
+                        </div>
+                        <div class="value-card">
+                            <i class="fas fa-user-secret"></i>
+                            <h3>รักษาความลับขั้นสูงสุด</h3>
+                            <p>ยึดมั่นในจรรยาบรรณวิชาชีพทนายความอย่างเคร่งครัด ข้อมูลของลูกความทุกคนจะถูกจัดเก็บเป็นความลับสูงสุด</p>
+                        </div>
+                        <div class="value-card">
+                            <i class="fas fa-hand-holding-dollar"></i>
+                            <h3>บริการที่เข้าถึงได้</h3>
+                            <p>นำเสนอทางเลือกการปรึกษาและค่าบริการที่ยืดหยุ่น เริ่มต้นเพียงการประเมินคดีในราคาที่คนทั่วไปสามารถเข้าถึงได้</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <div class="contact-cta">
+                    <h3>ติดต่อปรึกษาข้อกฎหมายกับทีมทนาย</h3>
+                    <p>เพราะความยุติธรรมรอไม่ได้ หากมีเรื่องเดือดร้อนใจ อย่ารอช้า เราพร้อมอยู่เคียงข้างคุณเสมอ</p>
+                    <a href="index.html" class="btn-line-cta"><i class="fab fa-line"></i> แอดไลน์ ปรึกษาทนายความ</a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>

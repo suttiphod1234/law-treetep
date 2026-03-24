@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="imag/favicon.ico">
+    <title>คู่มือการใช้งานเว็บไซต์ - สำนักกฎหมายตรีเทพทนายความ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+
+        .guide-page-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 3rem 2.5rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border-top: 6px solid var(--primary-color);
+        }
+
+        .guide-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 2rem;
+        }
+
+        .guide-header h1 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .guide-header p {
+            color: #666;
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Steps Layout */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .step-item {
+            display: flex;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: var(--radius);
+            padding: 2rem;
+            gap: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-item:hover {
+            transform: translateY(-3px);
+            border-color: #e0e0e0;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Step Number background */
+        .step-item::after {
+            content: attr(data-step);
+            position: absolute;
+            top: -20px;
+            right: -10px;
+            font-size: 8rem;
+            font-weight: 800;
+            color: rgba(11, 29, 66, 0.03);
+            line-height: 1;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .step-icon {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(11, 29, 66, 0.1), rgba(11, 29, 66, 0.05));
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            z-index: 1;
+        }
+
+        .step-content {
+            flex-grow: 1;
+            z-index: 1;
+        }
+
+        .step-content h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-content p {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+            margin-bottom: 0;
+        }
+
+        /* Note box for extra features */
+        .feature-note {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffb300;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-radius: 4px;
+        }
+
+        .feature-note h3 {
+            color: #ff8f00;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-note p {
+            color: #5d4037;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .back-nav {
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+        
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        
+        .back-nav a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .guide-page-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .step-item {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+                text-align: center;
+            }
+            .step-icon {
+                margin: 0 auto;
+            }
+            .step-item::after {
+                font-size: 6rem;
+                top: auto;
+                bottom: -10px;
+                right: 10px;
+            }
+            .step-content h3 {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 10px;">
+                    <img src="imag/logo ตรีเทพพิทักษ์.png" alt="โลโก้ สำนักกฎหมายตรีเทพทนายความ" style="height: 40px; width: auto; object-fit: contain;">
+                    <h2>สำนักกฎหมายตรีเทพทนายความ</h2>
+                </a>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="guide-page-container">
+                
+                <div class="back-nav">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก</a>
+                </div>
+
+                <div class="guide-header">
+                    <h1><i class="fas fa-book"></i> วิธีการใช้งานเว็บไซต์ (คู่มือ)</h1>
+                    <p>ระบบของเราออกแบบมาเพื่อให้ท่านเข้าถึงการปรึกษาข้อกฎหมายกับทนายความได้อย่างสะดวก รวดเร็ว และเป็นส่วนตัวที่สุด เพียงทำตามขั้นตอนง่ายๆ ดังนี้</p>
+                </div>
+
+                <div class="steps-container">
+                    
+                    <!-- Step 1 -->
+                    <div class="step-item" data-step="1">
+                        <div class="step-icon"><i class="fas fa-keyboard"></i></div>
+                        <div class="step-content">
+                            <h3>1. พิมพ์ข้อความคำถามเพื่อปรึกษา</h3>
+                            <p>ที่หน้าหลักของเว็บไซต์ (หน้าแรก) จะมีช่องสำหรับพิมพ์ข้อความ ให้ท่านพิมพ์อธิบายเรื่องราว หรือข้อกฎหมายที่ต้องการจะปรึกษาลงไปได้เลย หากไม่สะดวกพิมพ์ สามารถกดปุ่ม <strong><i class="fas fa-microphone"></i> ไมโครโฟน เพื่อพูดด้วยเสียง</strong> แล้วระบบจะแปลงเป็นข้อความให้อัตโนมัติ (Speech-to-Text)</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-item" data-step="2">
+                        <div class="step-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="step-content">
+                            <h3>2. ตรวจสอบและยืนยันข้อมูล</h3>
+                            <p>หลังจากกดปุ่มส่งข้อความ ระบบจะมีหน้าต่างสเด้งขึ้นมาให้ท่านตรวจสอบความถูกต้องของเนื้อหาที่พิมพ์ไปอีกครั้ง หากต้องการแก้ไขเพิ่มเติมก็กดปุ่ม "แก้ไขข้อความ" หรือถ้าครบถ้วนแล้ว ให้กดติ๊กถูกเพื่อ <strong>ยอบรับเงื่อนไข</strong> และกดปุ่ม ยอมรับ</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-item" data-step="3">
+                        <div class="step-icon"><i class="fas fa-qrcode"></i></div>
+                        <div class="step-content">
+                            <h3>3. ชำระค่าบริการผ่านระบบ PromtPay</h3>
+                            <p>ระบบจะนำท่านไปยังหน้าต่างการชำระเงินอัตโนมัติ ซึ่งทางสำนักกฎหมายคิดค่าบริการการให้คำปรึกษาเบื้องต้น ท่านสามารถสแกน QR Code ที่แสดงขึ้นมาด้วยแอปพลิเคชันธนาคารใดก็ได้ แล้วกดติ๊กถูกเพื่อยืนยันการชำระเงิน</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="step-item" data-step="4">
+                        <div class="step-icon"><i class="fab fa-line"></i></div>
+                        <div class="step-content">
+                            <h3>4. สแกน QR แอดไลน์เพื่อลุยคดีกับทนาย</h3>
+                            <p>เมื่อท่านชำระเงินเรียบร้อยแล้ว ระบบจะบันทึกข้อความคำถามของท่านเข้าสู่ฐานข้อมูลของสำนักกฎหมาย จากนั้นให้ท่าน <strong>สแกน QR Code หรือคลิกปุ่มแอดไลน์ (LINE Official)</strong> เพื่อเข้าไปคุยรายละเอียดเชิงลึกและส่งหลักฐานจริงให้ทนายความต่อได้ฟรี</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="feature-note">
+                    <h3><i class="fas fa-history"></i> ฟีเจอร์: ประวัติการใช้งาน</h3>
+                    <p>ท่านสามารถย้อนดูประวัติการส่งคำปรึกษาที่ผ่านมาได้เสมอ โดยการกดที่ปุ่มเมนู <strong>"ประวัติการใช้งาน"</strong> ด้านล่างสุดของเว็บไซต์ ระบบจะให้ท่านเข้าสู่ระบบผ่านบัญชี LINE ของท่าน (LINE Login) เพื่อดึงข้อมูลประวัติเก่าๆ มาแสดงให้ดูได้อย่างปลอดภัยและเป็นส่วนตัว</p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
