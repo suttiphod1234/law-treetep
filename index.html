@@ -119,34 +119,126 @@
                     <a href="#">ข้อมูลส่วนบุคคล</a>
                     <a href="#" id="history-link">ประวัติการใช้งาน</a>
                     <a href="#">รู้เรื่องกฎหมาย</a>
-                    <a href="#" id="faq-link">ถามตอบ</a>
+                    <a href="#" id="faq-link">คำถามที่ถูกพบบ่อย (FAG)</a>
                 </div>
             </div>
         </footer>
 
         <!-- FAQ Popup -->
         <div id="faq-popup" class="modal hidden">
-            <div class="modal-content faq-content">
-                <h3>ถาม-ตอบ (FAQ)</h3>
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <div class="faq-question">1. ปรึกษาทนายฟรีจริงไหม?</div>
-                        <div class="faq-answer">ฟรีครับ
-                            สำหรับการให้ข้อมูลเบื้องต้นและแนวทางการแก้ปัญหาทางกฎหมายเบื้องต้น</div>
+            <div class="modal-content faq-content" style="max-width: 700px; padding: 2rem;">
+                <div style="text-align: center; margin-bottom: 1.5rem;">
+                    <h3 style="color: var(--primary-color); font-size: 1.6rem; margin-bottom: 0.5rem;"><i
+                            class="fas fa-question-circle"></i> 10 คำถามที่ถูกพบบ่อย</h3>
+                    <p style="color: #666; font-size: 0.95rem;">ข้อสงสัยยอดฮิตและคำแนะนำทางกฎหมายเบื้องต้น</p>
+                </div>
+
+                <div class="faq-list"
+                    style="max-height: 50vh; overflow-y: auto; text-align: left; padding-right: 10px; margin-bottom: 20px;">
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">1.
+                            ปรึกษาทนายฟรีจริงไหม?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            ฟรีสำหรับการประเมินรูปคดีเบื้องต้น และให้คำแนะนำทางกฎหมายในภาพรวมครับ</div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">2. ทนายส่วนตัว 1 บาท ครอบคลุมอะไรบ้าง?</div>
-                        <div class="faq-answer">
-                            ครอบคลุมการวิเคราะห์เอกสารแบบเชิงลึกและให้คำปรึกษาแบบตัวต่อตัวทางโทรศัพท์หรือ Line สูงสุด 30
-                            นาที</div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">2. ทนายส่วนตัว
+                            ครอบคลุมอะไรบ้าง?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            ครอบคลุมการวิเคราะห์เอกสารหลักฐานเชิงลึก พร้อมให้คำปรึกษาทางโทรศัพท์หรือ Line สูงสุด 30 นาที
+                            เพื่อหาทางออกที่ดีที่สุด</div>
                     </div>
-                    <div class="faq-item">
-                        <div class="faq-question">3. เก็บข้อมูลความลับลูกความอย่างไร?</div>
-                        <div class="faq-answer">เรายึดถือจรรยาบรรณทนายความ
-                            ข้อมูลทุกอย่างจะถูกเก็บเป็นความลับและไม่เปิดเผยต่อบุคคลภายนอก</div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">3.
+                            เก็บข้อมูลความลับลูกความอย่างไร?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            ทนายความยึดถือจรรยาบรรณวิชาชีพอย่างเคร่งครัด
+                            ข้อมูลของท่านจะถูกเก็บเป็นความลับสูงสุดและไม่เปิดเผยต่อบุคคลภายนอกเด็ดขาด</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">4.
+                            ต้องเตรียมเอกสารอะไรบ้างก่อนปรึกษาทนาย?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            แนะนำให้เตรียมเอกสารที่เกี่ยวข้องกับคดีเรียงตามลำดับเวลา เช่น สัญญา แชทสนทนา สลิปโอนเงิน
+                            หรือรูปถ่ายเหตุการณ์</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">5. คดีกู้ยืมเงิน
+                            ไม่มีสัญญาฟ้องได้ไหม?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            หากมีหลักฐานการโอนเงินและแชทสนทนาที่ระบุการขอกู้ยืมชัดเจน
+                            สามารถใช้เป็นหลักฐานการกู้ยืมเงินเพื่อฟ้องร้องได้ครับ</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">6. โดนโกงออนไลน์
+                            ต้องทำอย่างไรเป็นอันดับแรก?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            เก็บรวบรวมหลักฐานทั้งหมด (แชท, สลิป, URL หรือโปรไฟล์คนโกง)
+                            แล้วโทรอายัดบัญชีที่โอนไปกับธนาคาร รวมถึงรีบไปแจ้งความออนไลน์หรือที่สถานีตำรวจทันที</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">7.
+                            คดีหมิ่นประมาททางโซเชียล มีโทษอย่างไร?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            อาจมีความผิดฐานหมิ่นประมาทด้วยการโฆษณา มีโทษจำคุกสูงสุดไม่เกิน 2 ปี หรือปรับไม่เกิน 2 แสนบาท
+                            หรือทั้งจำทั้งปรับ</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">8.
+                            ฝ่ายตรงข้ามไม่มาตามนัดศาล จะเกิดอะไรขึ้น?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            หากจำเลยทราบนัดโดยชอบแล้วแต่ขาดนัด ศาลอาจพิจารณาชี้ขาดคดีไปฝ่ายเดียวตามพยานหลักฐานของโจทก์
+                            หรืออาจออกหมายจับในกรณีคดีอาญา</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">9.
+                            ระยะเวลาในการดำเนินคดีแพ่งนานแค่ไหน?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            ขึ้นอยู่กับความซับซ้อนของคดีและการสืบพยาน โดยทั่วไปสำหรับศาลชั้นต้นอาจใช้เวลาประมาณ 6 เดือน
+                            ถึง 1 ปี กว่าจะมีคำพิพากษา ออกมา</div>
+                    </div>
+                    <div class="faq-item"
+                        style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                        <div class="faq-question"
+                            style="font-weight: bold; color: var(--text-color); margin-bottom: 5px;">10.
+                            ถ้าตกลงไกล่เกลี่ยกันได้ ต้องทำอย่างไร?</div>
+                        <div class="faq-answer" style="color: #555; font-size: 0.95rem; line-height: 1.5;">
+                            สามารถทำสัญญาประนีประนอมยอมความต่อหน้าศาลได้เลย ซึ่งศาลจะมีคำพิพากษาตามยอม
+                            ทำให้มีผลผูกพันบังคับคดีได้ทันทีหากผิดสัญญา</div>
                     </div>
                 </div>
-                <button class="btn-primary close-faq" style="margin-top: 20px;">ปิดหน้าต่าง</button>
+
+                <div
+                    style="text-align: center; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 2px dashed #f0f0f0;">
+                    <p style="margin-bottom: 15px; font-weight: bold; color: #333;">ดูคลิปพูดคุยและตอบคำถามกฎหมายสดๆ
+                        กับทีมทนาย</p>
+                    <a href="https://www.youtube.com/" target="_blank"
+                        style="display: inline-flex; align-items: center; justify-content: center; background-color: #FF0000; color: white; padding: 12px 25px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 1.1rem; box-shadow: 0 4px 6px rgba(255, 0, 0, 0.3); transition: transform 0.2s, background-color 0.2s; width: 100%; max-width: 350px;">
+                        <i class="fab fa-youtube" style="font-size: 1.5rem; margin-right: 10px;"></i> ดู Live สด
+                        ตอบคำถามบน YouTube
+                    </a>
+                </div>
+
+                <button class="btn-primary close-faq"
+                    style="background-color: #f5f5f5; color: #666; border: 1px solid #ddd; width: 100%; max-width: 150px; margin: 20px auto 0; border-radius: 8px;">ปิดหน้าต่าง</button>
             </div>
         </div>
 
@@ -166,34 +258,42 @@
 
     </div>
 
-        <!-- History Popup -->
-        <div id="history-popup" class="modal hidden">
-            <div class="modal-content" style="max-width: 600px; padding: 2rem;">
-                <div class="history-header" style="text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; position: relative;">
-                    <h3 style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"><i class="fas fa-history"></i> ประวัติการใช้งาน</h3>
-                    <p style="font-size: 0.95rem; color: #666;">ประวัติการขอคำปรึกษาของคุณ</p>
-                    <button class="close-history btn-close" style="position: absolute; top: -10px; right: -10px; background: #f5f5f5; border: none; font-size: 1.2rem; cursor: pointer; color: #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s;"><i class="fas fa-times"></i></button>
-                </div>
+    <!-- History Popup -->
+    <div id="history-popup" class="modal hidden">
+        <div class="modal-content" style="max-width: 600px; padding: 2rem;">
+            <div class="history-header"
+                style="text-align: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 1.5rem; margin-bottom: 1.5rem; position: relative;">
+                <h3 style="color: var(--primary-color); font-size: 1.5rem; margin-bottom: 0.5rem;"><i
+                        class="fas fa-history"></i> ประวัติการใช้งาน</h3>
+                <p style="font-size: 0.95rem; color: #666;">ประวัติการขอคำปรึกษาของคุณ</p>
+                <button class="close-history btn-close"
+                    style="position: absolute; top: -10px; right: -10px; background: #f5f5f5; border: none; font-size: 1.2rem; cursor: pointer; color: #666; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s;"><i
+                        class="fas fa-times"></i></button>
+            </div>
 
-                <div id="history-login-section" class="text-center" style="padding: 2rem 0; text-align: center;">
-                    <i class="fab fa-line" style="font-size: 4.5rem; color: #00B900; margin-bottom: 1rem;"></i>
-                    <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">กรุณายืนยันตัวตน</h4>
-                    <p style="color: #666; margin-bottom: 2rem; font-size: 0.95rem;">เข้าสู่ระบบด้วย LINE เพื่อดึงประวัติส่วนตัวของคุณ</p>
-                    <button id="login-history-btn" class="line-btn" style="background-color: #00B900; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; font-size: 1.05rem;">
-                        <i class="fab fa-line" style="font-size: 1.4rem;"></i> ล็อกอินด้วย LINE
-                    </button>
-                </div>
+            <div id="history-login-section" class="text-center" style="padding: 2rem 0; text-align: center;">
+                <i class="fab fa-line" style="font-size: 4.5rem; color: #00B900; margin-bottom: 1rem;"></i>
+                <h4 style="font-size: 1.25rem; font-weight: bold; margin-bottom: 0.5rem;">กรุณายืนยันตัวตน</h4>
+                <p style="color: #666; margin-bottom: 2rem; font-size: 0.95rem;">เข้าสู่ระบบด้วย LINE
+                    เพื่อดึงประวัติส่วนตัวของคุณ</p>
+                <button id="login-history-btn" class="line-btn"
+                    style="background-color: #00B900; color: white; padding: 12px 24px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; width: 100%; max-width: 250px; font-size: 1.05rem;">
+                    <i class="fab fa-line" style="font-size: 1.4rem;"></i> ล็อกอินด้วย LINE
+                </button>
+            </div>
 
-                <div id="history-loading-section" class="hidden" style="padding: 3rem 0; text-align: center; color: var(--primary-color);">
-                    <i class="fas fa-spinner fa-spin fa-3x"></i>
-                    <p style="margin-top: 1rem; font-weight: bold; font-size: 1.1rem;">กำลังดึงข้อมูลอย่างปลอดภัย...</p>
-                </div>
+            <div id="history-loading-section" class="hidden"
+                style="padding: 3rem 0; text-align: center; color: var(--primary-color);">
+                <i class="fas fa-spinner fa-spin fa-3x"></i>
+                <p style="margin-top: 1rem; font-weight: bold; font-size: 1.1rem;">กำลังดึงข้อมูลอย่างปลอดภัย...</p>
+            </div>
 
-                <div id="history-content-section" class="hidden" style="max-height: 400px; overflow-y: auto; text-align: left; padding-right: 15px;">
-                    <!-- History groups will be injected here via JS -->
-                </div>
+            <div id="history-content-section" class="hidden"
+                style="max-height: 400px; overflow-y: auto; text-align: left; padding-right: 15px;">
+                <!-- History groups will be injected here via JS -->
             </div>
         </div>
+    </div>
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
