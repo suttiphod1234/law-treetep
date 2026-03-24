@@ -14,14 +14,25 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     const { fullName, phone, message, type, slip } = data;
     
-    // 1. Categorize Case (Simple keyword search)
+    // 1. Categorize Case
     const category = categorizeCase(message);
+    
+    // Determine free usage limit status
+    let statusText = 'Private ⭐️';
+    if (type === 'free') {
+      const existingCount = getFreeCount(phone);
+      const currentCount = existingCount + 1;
+      statusText = `Free (ครั้งที่ ${currentCount}/2)`;
+      if (currentCount > 2) {
+        statusText = `Free (เกินโควต้า ครั้งที่ ${currentCount})`;
+      }
+    }
     
     // 2. Save to Google Sheet
     saveToSheet(category, [new Date(), fullName, phone, message, type]);
     
     // 3. Send Flex Message to Lawyer group
-    sendToLawyerGroup(fullName, phone, message, type, category);
+    sendToLawyerGroup(fullName, phone, message, statusText, category);
     
     return ContentService.createTextOutput(JSON.stringify({ status: 'success', category }))
       .setMimeType(ContentService.MimeType.JSON);
@@ -41,6 +52,25 @@ function categorizeCase(text) {
   return 'คดีแพ่ง';
 }
 
+function getFreeCount(phone) {
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+  let count = 0;
+  
+  categories.forEach(cat => {
+    const sheet = ss.getSheetByName(cat);
+    if (sheet) {
+      const data = sheet.getDataRange().getValues();
+      data.forEach(row => {
+        if (row[2].toString() === phone.toString() && row[4] === 'free') {
+          count++;
+        }
+      });
+    }
+  });
+  return count;
+}
+
 function saveToSheet(sheetName, rowData) {
   const ss = SpreadsheetApp.openById(SHEET_ID);
   let sheet = ss.getSheetByName(sheetName);
@@ -51,7 +81,7 @@ function saveToSheet(sheetName, rowData) {
   sheet.appendRow(rowData);
 }
 
-function sendToLawyerGroup(name, phone, message, type, category) {
+function sendToLawyerGroup(name, phone, message, statusText, category) {
   const url = 'https://api.line.me/v2/bot/message/push';
   const flexData = {
     "type": "bubble",
@@ -66,6 +96,7 @@ function sendToLawyerGroup(name, phone, message, type, category) {
       "contents": [
         { "type": "text", "text": `ชื่อ: ${name}`, "size": "sm" },
         { "type": "text", "text": `เบอร์: ${phone}`, "size": "sm" },
+        { "type": "text", "text": `สถานะ: ${statusText}`, "weight": "bold", "color": statusText.includes('Private') ? "#d32f2f" : "#4caf50" },
         { "type": "text", "text": `หมวด: ${category}`, "weight": "bold", "color": "#fbc02d" },
         { "type": "separator", "margin": "md" },
         { "type": "text", "text": message, "wrap": true, "margin": "md" }

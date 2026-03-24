@@ -124,13 +124,26 @@ function handleServiceSelection(type) {
         return;
     }
 
+    if (type === 'free') {
+        const freeCount = parseInt(localStorage.getItem('free_count_' + phone) || '0', 10);
+        if (freeCount >= 2) {
+            alert('คุณใช้โควต้าปรึกษาฟรีครบ 2 ครั้งแล้ว กรุณาเลือก "ปรึกษาทนายส่วนตัว" ชำระค่าบริการ 500 บาท เพื่อรับบริการต่อครับ');
+            document.getElementById('free-consult').classList.remove('highlight');
+            document.getElementById('private-consult').classList.add('highlight');
+            return;
+        }
+    }
+
     consultationData.fullName = name;
     consultationData.phone = phone;
     consultationData.lineId = lineId;
     consultationData.type = type;
 
     if (type === 'free') {
+        const freeCount = parseInt(localStorage.getItem('free_count_' + phone) || '0', 10);
+        localStorage.setItem('free_count_' + phone, freeCount + 1);
         completeFlow();
+
     } else {
         hideModal(contactPopup);
         showModal(paymentPopup);
