@@ -21,8 +21,7 @@ function doGet(e) {
         return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'No code provided' })).setMimeType(ContentService.MimeType.JSON);
       }
       
-      const historyRedirectUri = 'https://suttiphod1234.github.io/law-treetep/history.html';
-      const userId = getLineUserIdFromCode(code, historyRedirectUri);
+      const userId = getLineUserIdFromCode(code, REDIRECT_URI);
       
       if (!userId) {
         return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: 'การยืนยันตัวตนกับระบบ LINE ล้มเหลว กรุณาลองใหม่อีกครั้ง' })).setMimeType(ContentService.MimeType.JSON);
