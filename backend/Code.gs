@@ -33,11 +33,11 @@ function doPost(e) {
 
 function categorizeCase(text) {
   if (text.includes('ฆ่า') || text.includes('ทำร้าย') || text.includes('ลักทรัพย์')) return 'คดีอาญา';
-  if (text.includes('มรดก') || text.includes('พินัยกรรม')) return 'มรดก';
+  if (text.includes('มรดก') || text.includes('พินัยกรรม')) return 'จัดการมรดก';
   if (text.includes('ที่ดิน') || text.includes('โฉนด')) return 'ที่ดิน';
-  if (text.includes('รถชน') || text.includes('อุบัติเหตุ')) return 'พรบ อุบัติเหตุ';
-  if (text.includes('ยึด') || text.includes('บังคับคดี')) return 'ยึดทรัพย์';
-  if (text.includes('สัญญา') || text.includes('กู้ยืม')) return 'ผิดสัญญา';
+  if (text.includes('รถชน') || text.includes('อุบัติเหตุ')) return 'คดี พ.ร.บ. และอุบัติเหตุ';
+  if (text.includes('ยึด') || text.includes('บังคับคดี')) return 'คดียึดทรัพย์';
+  if (text.includes('สัญญา') || text.includes('กู้ยืม')) return 'คดีผิดสัญญา';
   return 'คดีแพ่ง';
 }
 
@@ -107,7 +107,7 @@ function sendToLawyerGroup(name, phone, message, type, category) {
  */
 function getHistoryFlex(lineId) {
   const ss = SpreadsheetApp.openById(SHEET_ID);
-  const categories = ['คดีอาญา', 'คดีแพ่ง', 'มรดก', 'ที่ดิน', 'พรบ อุบัติเหตุ', 'ยึดทรัพย์', 'ผิดสัญญา'];
+  const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
   let history = [];
   
   categories.forEach(cat => {

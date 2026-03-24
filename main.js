@@ -179,7 +179,8 @@ async function completeFlow() {
     
     // Redirect to Line OA
     const lineID = "@440dtbxo";
-    const lineLink = `https://line.me/R/oaMessage/${lineID}/?สวัสดีทนาย`;
+    const lineMessage = `สวัสดีทนาย\nผมมีเรื่องปรึกษา: ${consultationData.message}\n\nข้อมูลติดต่อ\nชื่อ: ${consultationData.fullName}\nเบอร์โทร: ${consultationData.phone}\nLine ID: ${consultationData.lineId || 'ไม่ได้ระบุ'}`;
+    const lineLink = `https://line.me/R/oaMessage/${lineID}/?${encodeURIComponent(lineMessage)}`;
     
     alert('บันทึกข้อมูลสำเร็จ กำลังพาคุณไปที่ Line เพื่อแจ้งทนาย...');
     window.location.href = lineLink;
