@@ -7,7 +7,7 @@
 
 const SHEET_ID = '17Nxa7YJah28ySjCmVtq8XJf_hoLqhUlT2I9wNTUw2S4';
 const LINE_ACCESS_TOKEN = 'ZDo/w/TP1R90TnVb6A3ZB4482+2ikAD2/imlwhvXTti9kezS35nRIfxZN+uSqUnOOjwWFTkqKIUSX7jtVh3hIOU88ZYFANLc44Q76ESFbybqbIcpnzajMyUgtft2OXRmXspYo136ckW4/QclBhtV3AdB04t89/1O/w1cDnyilFU=';
-const LAWYER_GROUP_ID = '606528151207805389';
+const LAWYER_GROUP_ID = 'C0e8bc4aae31a5547c427bd4b7992efd7';
 
 function doPost(e) {
   try {
