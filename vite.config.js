@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-  base: '/law-treetep/',
+  base: '/',
   server: {
     port: 3000,
     open: true
