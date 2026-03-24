@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รู้เรื่องกฎหมาย - สำนักกฎหมายตรีเทพทนายความ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+        .knowledge-page-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .knowledge-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .knowledge-header h2 {
+            color: var(--primary-color);
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .knowledge-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .knowledge-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 5px solid var(--primary-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .knowledge-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #e8eaf6;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--text-color);
+            margin: 0;
+        }
+
+        .card-desc {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (min-width: 600px) {
+            .info-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-item {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .info-item strong {
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .example-box {
+            background: #fff3e0;
+            border-left: 4px solid var(--accent-orange);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+        }
+
+        .example-box strong {
+            color: #e65100;
+        }
+
+        .example-box ul {
+            margin: 8px 0 0 0;
+            padding-left: 20px;
+            color: #424242;
+        }
+
+        .summary-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            text-align: center;
+            font-size: 1.05rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .youtube-section {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 3rem;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .youtube-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FF0000;
+            color: white;
+            padding: 15px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.25rem;
+            box-shadow: 0 6px 12px rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 1.5rem;
+            gap: 12px;
+        }
+
+        .youtube-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 0, 0, 0.4);
+            background-color: #e60000;
+        }
+        
+        .back-nav {
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+        
+        .back-nav a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            transition: color 0.2s;
+        }
+        
+        .back-nav a:hover {
+            color: var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .knowledge-page-container {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .youtube-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header">
+            <div class="logo">
+                <i class="fas fa-balance-scale"></i>
+                <h2>สำนักกฎหมายตรีเทพทนายความ</h2>
+            </div>
+        </header>
+
+        <main class="container">
+            <div class="knowledge-page-container">
+                
+                <div class="back-nav">
+                    <a href="index.html"><i class="fas fa-arrow-left"></i> กลับไปหน้าหลัก</a>
+                </div>
+
+                <div class="knowledge-header">
+                    <h2><i class="fas fa-book-open"></i> รู้เรื่องกฎหมายแบบเข้าใจง่าย</h2>
+                    <p>รวบรวมข้อมูลกฎหมายประเภทต่างๆ ที่ประชาชนควรรู้ เพื่อปกป้องสิทธิของตนเอง</p>
+                </div>
+
+                <div class="knowledge-grid">
+                    <!-- 1. คดีอาญา -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-gavel"></i></div>
+                            <h3 class="card-title">1. คดีอาญา</h3>
+                        </div>
+                        <p class="card-desc">คือคดีที่เกี่ยวกับ <strong>“การกระทำผิดกฎหมายที่กระทบต่อสังคม”</strong> รัฐจึงต้องลงโทษผู้กระทำผิดเพื่อรักษาความสงบ</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item"><strong>ผู้ฟ้อง:</strong> รัฐ (อัยการ) หรือผู้เสียหายฟ้องเอง</div>
+                            <div class="info-item"><strong>ผู้ถูกฟ้อง:</strong> ผู้ต้องหา / จำเลย</div>
+                            <div class="info-item" style="grid-column: 1 / -1;"><strong>ผลลัพธ์:</strong> อาจโดน จำคุก / ปรับ / ริบทรัพย์สิน / หรือทั้งจำทั้งปรับ</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ตัวอย่างคดี:</strong>
+                            <ul>
+                                <li>ลักทรัพย์, วิ่งราวทรัพย์</li>
+                                <li>ทำร้ายร่างกาย</li>
+                                <li>คดีฉ้อโกงประชาชน</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: เป็นเรื่อง “ผิดกฎหมาย → มีโทษ (ติดคุก/ปรับ)”
+                        </div>
+                    </div>
+
+                    <!-- 2. คดีแพ่ง -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-handshake"></i></div>
+                            <h3 class="card-title">2. คดีแพ่ง</h3>
+                        </div>
+                        <p class="card-desc">คือคดีข้อพิพาทเกี่ยวกับเรื่องส่วนตัว ทรัพย์สิน หรือสิทธิระหว่าง <strong>“เอกชนกับเอกชน”</strong></p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item"><strong>ผู้ฟ้อง:</strong> บุคคลทั่วไป / บริษัท (โจทก์)</div>
+                            <div class="info-item"><strong>ผู้ถูกฟ้อง:</strong> บุคคลทั่วไป / บริษัท (จำเลย)</div>
+                            <div class="info-item" style="grid-column: 1 / -1;"><strong>ผลลัพธ์:</strong> ส่วนใหญ่คือ บังคับให้ชดใช้เงิน / คืนทรัพย์สิน / ห้ามกระทำการ</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ตัวอย่างคดี:</strong>
+                            <ul>
+                                <li>ฟ้องเรียกเงินกู้ยืม</li>
+                                <li>ผิดสัญญาว่าจ้าง</li>
+                                <li>เรียกค่าเสียหาย (ละเมิด)</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #1976D2;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: เป็นเรื่อง “เงิน/สิทธิ → ไม่ติดคุก (โดยตรง)”
+                        </div>
+                    </div>
+
+                    <!-- 3. คดีมรดก -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-file-signature"></i></div>
+                            <h3 class="card-title">3. คดีมรดก</h3>
+                        </div>
+                        <p class="card-desc">คือคดีที่เกี่ยวข้องกับ <strong>“ทรัพย์สิน สิทธิ หน้าที่ และความรับผิดชอบของผู้ตาย”</strong></p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item"><strong>ใครเกี่ยวข้อง:</strong> ทายาทโดยธรรม / ผู้รับพินัยกรรม / เจ้าหนี้</div>
+                            <div class="info-item"><strong>ประเด็นหลัก:</strong> ใครมีสิทธิได้อะไรเท่าไหร่, พินัยกรรมถูกต้องไหม</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ตัวอย่างคดี:</strong>
+                            <ul>
+                                <li>ลูก/ญาติ ทะเลาะกันเรื่องการแบ่งบ้านของพ่อแม่</li>
+                                <li>มีพินัยกรรม แต่มีคนคัดค้านว่าปลอมแปลง</li>
+                                <li>ร้องขอตั้งผู้จัดการมรดก</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #8E24AA;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: “แบ่งทรัพย์สินหลังเสียชีวิต”
+                        </div>
+                    </div>
+
+                    <!-- 4. คดีที่ดิน -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-map-marked-alt"></i></div>
+                            <h3 class="card-title">4. คดีที่ดิน</h3>
+                        </div>
+                        <p class="card-desc">คือข้อพิพาทที่เกี่ยวกับ <strong>“สิทธิในการครอบครองหรือเป็นเจ้าของที่ดิน”</strong></p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item" style="grid-column: 1 / -1;"><strong>เอกสารที่เกี่ยวข้อง:</strong> โฉนดที่ดิน (น.ส.4) / ส.ค.1 / น.ส.3 / น.ส.3ก</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ตัวอย่างคดี:</strong>
+                            <ul>
+                                <li>ที่ดินทับเขตกัน แนวรั้วล้ำเข้ามา</li>
+                                <li>ฟ้องร้องครอบครองปรปักษ์ (แย่งกรรมสิทธิ์)</li>
+                                <li>การปลอมแปลงเอกสารสิทธิโฉนดที่ดิน</li>
+                                <li>การฟ้องเปิดทางภาระจำยอม / ทางจำเป็น</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #388E3C;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: “ใครคือเจ้าของที่ดินตัวจริง”
+                        </div>
+                    </div>
+
+                    <!-- 5. พ.ร.บ. อุบัติเหตุ -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-car-crash"></i></div>
+                            <h3 class="card-title">5. พ.ร.บ. อุบัติเหตุ (ประกันรถ)</h3>
+                        </div>
+                        <p class="card-desc">คือกฎหมายเกี่ยวกับ <strong>“ประกันภัยภาคบังคับของรถยนต์และรถจักรยานยนต์”</strong> ซึ่งกฎหมายบังคับให้รถทุกคันต้องมี</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item"><strong>เป้าหมาย:</strong> ใช้คุ้มครอง "คน" (ผู้ประสบภัย) ไม่ใช่ชดเชยค่าซ่อม "รถ"</div>
+                            <div class="info-item"><strong>ความคุ้มครอง:</strong> ค่ารักษาพยาบาล, ค่าชดเชยกรณีเสียชีวิตหรือทุพพลภาพ</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ข้อควรรู้:</strong>
+                            <ul>
+                                <li>หากรถไม่ต่อ พ.ร.บ. จะมีความผิดตามกฎหมาย (ปรับสูงสุด 10,000 บาท)</li>
+                                <li>สามารถเบิกค่าเสียหายเบื้องต้นได้ทันทีโดยไม่ต้องรอพิสูจน์ถูกผิด</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #D84315;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: “รถชน → พ.ร.บ. ช่วยจ่ายค่ารักษาคน”
+                        </div>
+                    </div>
+
+                    <!-- 6. การยึดทรัพย์ -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                            <h3 class="card-title">6. การยึดทรัพย์</h3>
+                        </div>
+                        <p class="card-desc">กระบวนการทางกฎหมายที่เกิดขึ้นเมื่อ <strong>“ลูกหนี้ไม่ยอมจ่ายเงินตามคำพิพากษาของศาล”</strong></p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item" style="grid-column: 1 / -1;"><strong>ขั้นตอน:</strong> ศาลตัดสินให้จ่ายเงิน ➔ ลูกหนี้เพิกเฉยไม่จ่าย ➔ เจ้าหนี้สืบทรัพย์และให้กรมบังคับคดีดำเนินการยึดทรัพย์</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> สิ่งที่ถูกยึด/อายัดได้:</strong>
+                            <ul>
+                                <li>ยึดบ้าน, คอนโด, หรือที่ดิน (แม้ติดจำนองก็ยึดนำมาขายทอดตลาดได้)</li>
+                                <li>ยึดรถยนต์ที่ผ่อนหมดแล้ว</li>
+                                <li>อายัดเงินเดือนส่วนที่เกิน 20,000 บาท/เดือน (ตามกฎหมายใหม่)</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #C62828;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: “ไม่จ่ายหนี้ตามศาลสั่ง → โดนบังคับยึดทรัพย์ขายทอดตลาด”
+                        </div>
+                    </div>
+
+                    <!-- 7. ผิดสัญญา -->
+                    <div class="knowledge-card">
+                        <div class="card-header">
+                            <div class="card-icon"><i class="fas fa-file-excel"></i></div>
+                            <h3 class="card-title">7. ผิดสัญญา</h3>
+                        </div>
+                        <p class="card-desc">คือการที่คู่สัญญาฝ่ายใดฝ่ายหนึ่ง <strong>“ไม่ทำตามที่ตกลงกันไว้ในสัญญา”</strong> อย่างจงใจหรือประมาทเลินเล่อ</p>
+                        
+                        <div class="info-grid">
+                            <div class="info-item" style="grid-column: 1 / -1;"><strong>ผลลัพธ์:</strong> ต้องชดใช้ค่าเสียหาย, ค่าปรับ, หรืออาจถูกฟ้องเป็นคดีแพ่งเพื่อบังคับให้ปฏิบัติตามสัญญา</div>
+                        </div>
+
+                        <div class="example-box">
+                            <strong><i class="fas fa-lightbulb"></i> ตัวอย่างคดี:</strong>
+                            <ul>
+                                <li>ซื้อของแล้วไม่จ่ายเงิน หรือจ่ายเงินแล้วผู้ขายไม่ส่งของ</li>
+                                <li>ผู้รับเหมาทิ้งงาน ทำงานไม่แล้วเสร็จตามกำหนด</li>
+                                <li>ผู้เช่าไม่จ่ายค่าเช่า หรือทำทรัพย์สินในบ้านเช่าเสียหาย</li>
+                            </ul>
+                        </div>
+
+                        <div class="summary-box" style="background-color: #FF8F00;">
+                            <i class="fas fa-arrow-circle-right"></i> สรุป: “สัญญาไม่ทำตาม → ต้องรับผิดชอบชดใช้”
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- YouTube Section -->
+                <div class="youtube-section">
+                    <h2 style="color: #333; margin-bottom: 1rem;"><i class="fas fa-video"></i> พบกับผู้เชี่ยวชาญตัวจริง</h2>
+                    <p style="color: #666; font-size: 1.1rem; max-width: 600px; margin: 0 auto;">
+                        ติดตามการตอบคำถามปัญหาข้อกฎหมายสดๆ ให้ความรู้กฎหมายแบบเจาะลึก เข้าใจง่าย พร้อมไขข้อข้องใจให้คุณทุกสัปดาห์
+                    </p>
+                    <a href="https://www.youtube.com/" target="_blank" class="youtube-btn">
+                        <i class="fab fa-youtube"></i> ดู Live สด ตอบคำถามบน YouTube
+                    </a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>
