@@ -12,9 +12,6 @@ const acceptBtn = document.getElementById('accept-btn');
 const contactPopup = document.getElementById('contact-popup');
 const freeConsultBtn = document.getElementById('free-consult');
 const privateConsultBtn = document.getElementById('private-consult');
-const paymentPopup = document.getElementById('payment-popup');
-const slipUpload = document.getElementById('slip-upload');
-const finalConfirmBtn = document.getElementById('final-confirm');
 const faqLink = document.getElementById('faq-link');
 const faqPopup = document.getElementById('faq-popup');
 const closeFaqBtn = document.querySelector('.close-faq');
@@ -183,21 +180,12 @@ function handleServiceSelection(type) {
         localStorage.setItem('free_count_' + phone, freeCount + 1);
         completeFlow();
     } else {
-        hideModal(contactPopup);
-        showModal(paymentPopup);
+        const dataToSave = { ...consultationData };
+        delete dataToSave.slip;
+        localStorage.setItem('pending_consultation', JSON.stringify(dataToSave));
+        window.location.href = 'payment.html';
     }
 }
-
-slipUpload.addEventListener('change', (e) => {
-    if (e.target.files.length > 0) {
-        consultationData.slip = e.target.files[0];
-        finalConfirmBtn.disabled = false;
-    }
-});
-
-finalConfirmBtn.addEventListener('click', () => {
-    completeFlow();
-});
 
 // FAQ Handlers
 faqLink.addEventListener('click', (e) => {

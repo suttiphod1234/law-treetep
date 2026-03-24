@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ชำระเงินค่าบริการ - สำนักกฎหมายตรีเทพทนายความ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        body {
+            background-color: #f5f7fa;
+        }
+        .payment-page-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+        .bank-info-box {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #eee;
+        }
+        .bank-info-box p {
+            margin: 5px 0;
+        }
+        .verified-badge {
+            color: #28a745;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: inline-block;
+            background: #e8f5e9;
+            padding: 5px 10px;
+            border-radius: 20px;
+        }
+        .qr-box img {
+            max-width: 250px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 5px;
+        }
+        .payment-actions {
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .payment-actions button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header style="text-align: center; padding: 20px; background: #fff; border-bottom: 1px solid #eaeaea; box-shadow: 0 2px 5px rgba(0,0,0,0.02);">
+            <div class="logo">
+                <i class="fas fa-balance-scale" style="color: #1a4f8b; font-size: 28px;"></i>
+                <h2 style="color: #1a4f8b; margin: 10px 0 0 0; font-size: 1.3rem;">สำนักกฎหมายตรีเทพทนายความ</h2>
+            </div>
+        </header>
+
+        <main class="payment-page-container">
+            <h3 style="margin-top: 0; color: #333; font-size: 1.5rem;">ชำระเงินค่าบริการ (ทนายส่วนตัว)</h3>
+            <p style="color: #666; margin-bottom: 25px;">กรุณาชำระเงินเพื่อยืนยันการรับบริการให้คำปรึกษาแบบส่วนตัว</p>
+            
+            <div class="payment-info">
+                <div style="font-size: 1.3em; border-bottom: 2px dashed #eee; padding-bottom: 20px; margin-bottom: 20px;">
+                    จำนวนเงิน: <strong style="color: #d32f2f; font-size: 1.3em;">500 บาท</strong>
+                </div>
+
+                <div class="bank-info-box">
+                    <p><strong>ธนาคารไทยพาณิชย์ (SCB)</strong></p>
+                    <p>ชื่อบัญชี : สุทธิพจน์ ศรีแสนยงค์</p>
+                    <p style="font-size: 1.3rem; font-weight: bold; margin: 15px 0; color: #1a4f8b; letter-spacing: 1px;">407-991173-7</p>
+                    <span class="verified-badge"><i class="fas fa-check-circle"></i> *เป็นบัญชีที่สามารถตรวจสอบได้</span>
+                </div>
+
+                <div class="qr-placeholder" id="qr-container">
+                    <div class="qr-box">
+                        <img src="./imag/24974.jpg" alt="PromptPay QR">
+                        <span style="display: block; margin-top: 10px; color: #666; font-size: 0.9em;">สแกนเพื่อชำระเงินผ่าน QR Code</span>
+                    </div>
+                </div>
+
+                <div class="file-upload" style="margin-top: 30px; text-align: left; background: #f0f7ff; padding: 20px; border-radius: 8px; border: 1px solid #cce0ff;">
+                    <label for="slip-upload" style="display: block; font-weight: bold; margin-bottom: 12px; color: #1a4f8b;">
+                        <i class="fas fa-file-upload"></i> แนบหลักฐานการโอนเงิน (สลิป)
+                    </label>
+                    <input type="file" id="slip-upload" accept="image/*" style="width: 100%; border: 1px solid #ccc; padding: 10px; border-radius: 4px; background: white;">
+                </div>
+            </div>
+
+            <div class="payment-actions">
+                <button id="final-confirm" class="btn-primary" disabled>
+                    <i class="fab fa-line"></i> ยืนยันการชำระเงินและเพิ่มเพื่อน Line
+                </button>
+                <button id="cancel-btn" class="btn-outline">
+                    ยกเลิกและกลับหน้าหลัก
+                </button>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="./payment.js"></script>
+</body>
+
+</html>
