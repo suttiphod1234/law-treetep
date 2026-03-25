@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,9 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+Thai:wght@300;400;700&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./style.css">
@@ -23,23 +26,27 @@
             background: linear-gradient(135deg, #f0f2ff 0%, #ffffff 100%);
             border-bottom: 1px solid #eaeaea;
         }
+
         .portfolio-title {
             color: var(--primary-color);
             font-size: 2.2rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
         }
+
         .portfolio-desc {
             color: #666;
             font-size: 1.05rem;
             max-width: 600px;
             margin: 0 auto;
         }
+
         .portfolio-loading {
             text-align: center;
             padding: 4rem 2rem;
             color: var(--primary-color);
         }
+
         .portfolio-container {
             max-width: 800px;
             margin: 0 auto 50px;
@@ -48,18 +55,21 @@
             flex-direction: column;
             gap: 20px;
         }
+
         .qa-card {
             background: #fff;
             border-radius: 16px;
             padding: 25px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
             border-top: 5px solid var(--primary-color);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
+
         .qa-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
         }
+
         .qa-meta {
             display: flex;
             justify-content: space-between;
@@ -68,6 +78,7 @@
             padding-bottom: 15px;
             border-bottom: 1px solid #f0f0f0;
         }
+
         .cat-badge {
             background: #e8eaf6;
             color: #1a237e;
@@ -79,6 +90,7 @@
             align-items: center;
             gap: 6px;
         }
+
         .qa-date {
             color: #888;
             font-size: 0.85rem;
@@ -86,9 +98,11 @@
             align-items: center;
             gap: 5px;
         }
+
         .qa-section {
             margin-bottom: 20px;
         }
+
         .qa-section h4 {
             display: flex;
             align-items: center;
@@ -96,6 +110,7 @@
             margin-bottom: 10px;
             font-size: 1.05rem;
         }
+
         .question-box {
             background: #f9f9f9;
             padding: 16px;
@@ -104,6 +119,7 @@
             line-height: 1.6;
             font-size: 0.95rem;
         }
+
         .answer-box {
             background: #f0f4f8;
             padding: 16px;
@@ -113,21 +129,26 @@
             font-size: 0.95rem;
             border-left: 4px solid var(--primary-color);
         }
+
         .q-title {
             color: #555;
         }
+
         .a-title {
             color: var(--primary-color);
         }
     </style>
 </head>
+
 <body>
     <div id="app">
         <!-- Minimal Header -->
         <header class="app-header">
             <div class="logo">
-                <a href="index.html" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
-                    <img src="imag/logo ตรีเทพพิทักษ์.png" alt="โลโก้ สำนักกฎหมายตรีเทพทนายความ" style="height: 60px; width: auto; object-fit: contain; margin-bottom: 10px;">
+                <a href="index.html"
+                    style="text-decoration: none; color: inherit; display: flex; flex-direction: column; align-items: center;">
+                    <img src="imag/logo ตรีเทพพิทักษ์.png" alt="โลโก้ สำนักกฎหมายตรีเทพทนายความ"
+                        style="height: 60px; width: auto; object-fit: contain; margin-bottom: 10px;">
                     <h2 style="margin: 0;">สำนักกฎหมายตรีเทพทนายความ</h2>
                 </a>
             </div>
@@ -136,7 +157,8 @@
         <main style="min-height: 70vh;">
             <div class="portfolio-header">
                 <h1 class="portfolio-title"><i class="fas fa-briefcase"></i> ผลงานทนายความ</h1>
-                <p class="portfolio-desc">รวบรวมตัวอย่างคำถามและคำแนะนำทางกฎหมายเบื้องต้นจากทนายความ (สงวนสิทธิ์การปกปิดข้อมูลส่วนบุคคลของลูกความ)</p>
+                <p class="portfolio-desc">รวบรวมตัวอย่างคำถามและคำแนะนำทางกฎหมายเบื้องต้นจากทนายความ</p>
+                <p></p>(สงวนสิทธิ์การปกปิดข้อมูลส่วนบุคคลของลูกความ)</p>
             </div>
 
             <div id="portfolio-loading" class="portfolio-loading">
@@ -178,4 +200,5 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="./portfolio.js"></script>
 </body>
+
 </html>
