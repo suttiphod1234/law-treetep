@@ -10,10 +10,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         const result = await response.json();
         
         loadingEl.style.display = 'none';
-        containerEl.style.display = 'flex';
         
         if (result.status === 'success') {
-            renderPortfolio(result.data, containerEl);
+            containerEl.style.display = 'flex';
+            document.getElementById('filter-container').style.display = 'flex';
+            
+            let allPortfolioData = result.data;
+            renderPortfolio(allPortfolioData, containerEl);
+            
+            // Set up filter buttons
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Update active class
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    
+                    const filterValue = e.target.getAttribute('data-filter');
+                    
+                    if (filterValue === 'all') {
+                        renderPortfolio(allPortfolioData, containerEl);
+                    } else {
+                        const filteredData = allPortfolioData.filter(item => item.category === filterValue);
+                        renderPortfolio(filteredData, containerEl);
+                    }
+                });
+            });
+            
         } else {
             throw new Error(result.message || 'Error fetching data');
         }

@@ -137,6 +137,38 @@
         .a-title {
             color: var(--primary-color);
         }
+
+        .filter-container {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: #fff;
+            border: 1px solid #ddd;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #555;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+        }
     </style>
 </head>
 
@@ -158,7 +190,18 @@
             <div class="portfolio-header">
                 <h1 class="portfolio-title"><i class="fas fa-briefcase"></i> ผลงานทนายความ</h1>
                 <p class="portfolio-desc">รวบรวมตัวอย่างคำถามและคำแนะนำทางกฎหมายเบื้องต้นจากทนายความ</p>
-                <p></p>(สงวนสิทธิ์การปกปิดข้อมูลส่วนบุคคลของลูกความ)</p>
+                <p>(สงวนสิทธิ์การปกปิดข้อมูลส่วนบุคคลของลูกความ)</p>
+            </div>
+
+            <div class="filter-container" id="filter-container" style="display: none;">
+                <button class="filter-btn active" data-filter="all">ทั้งหมด</button>
+                <button class="filter-btn" data-filter="คดีอาญา">คดีอาญา</button>
+                <button class="filter-btn" data-filter="คดีแพ่ง">คดีแพ่ง</button>
+                <button class="filter-btn" data-filter="จัดการมรดก">จัดการมรดก</button>
+                <button class="filter-btn" data-filter="ที่ดิน">ที่ดิน</button>
+                <button class="filter-btn" data-filter="คดี พ.ร.บ. และอุบัติเหตุ">พ.ร.บ./อุบัติเหตุ</button>
+                <button class="filter-btn" data-filter="คดียึดทรัพย์">คดียึดทรัพย์</button>
+                <button class="filter-btn" data-filter="คดีผิดสัญญา">คดีผิดสัญญา</button>
             </div>
 
             <div id="portfolio-loading" class="portfolio-loading">

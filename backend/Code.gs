@@ -58,45 +58,29 @@ function doGet(e) {
     
     if (e.parameter && e.parameter.action === 'get_portfolio') {
       const ss = SpreadsheetApp.openById(SHEET_ID);
-      const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+      const sheet = ss.getSheetByName('Portfolio');
       
       let portfolioData = [];
       
-      categories.forEach(cat => {
-        const sheet = ss.getSheetByName(cat);
-        if (sheet) {
-          const data = sheet.getDataRange().getValues();
-          // loop from 1 to skip header row
-          for (let i = 1; i < data.length; i++) {
-            const row = data[i];
-            const answer = row[6]; // Column G (Index 6) is lawyer's answer
-            if (answer && answer.toString().trim() !== '') {
-               let nameStr = row[1] ? row[1].toString().trim() : 'ลูกค้า';
-               let anonName = 'คุณลูกค้า';
-               
-               if (nameStr && nameStr.length > 0) {
-                 // Try to get just the first actual character of the name, skipping common prefixes
-                 let firstChar = nameStr.charAt(0);
-                 if (nameStr.startsWith('นาย')) firstChar = nameStr.charAt(3) || 'ล';
-                 else if (nameStr.startsWith('นางสาว')) firstChar = nameStr.charAt(6) || 'ล';
-                 else if (nameStr.startsWith('นาง')) firstChar = nameStr.charAt(3) || 'ล';
-                 else if (nameStr.startsWith('ด.ช.')) firstChar = nameStr.charAt(4) || 'ล';
-                 else if (nameStr.startsWith('ด.ญ.')) firstChar = nameStr.charAt(4) || 'ล';
-                 
-                 anonName = `คุณ ${firstChar}***`;
-               }
-               
-               portfolioData.push({
-                 date: row[0],
-                 category: cat,
-                 question: row[3],
-                 answer: answer.toString().trim(),
-                 clientName: anonName
-               });
-            }
+      if (sheet) {
+        const data = sheet.getDataRange().getValues();
+        // loop from 1 to skip header row
+        for (let i = 1; i < data.length; i++) {
+          const row = data[i];
+          const question = row[2]; // Column C
+          const answer = row[3];   // Column D
+          
+          if (question && answer && answer.toString().trim() !== '') {
+             portfolioData.push({
+               date: row[0],         // Column A
+               category: row[1],     // Column B
+               question: question.toString().trim(),
+               answer: answer.toString().trim(),
+               clientName: 'ลูกความ'
+             });
           }
         }
-      });
+      }
       
       // Sort by date newest first
       portfolioData.sort((a, b) => new Date(b.date) - new Date(a.date));
