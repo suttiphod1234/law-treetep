@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('filter-container').style.display = 'flex';
             
             let allPortfolioData = result.data;
+            
+            // Robust sorting to ensure newest dates are on top
+            allPortfolioData.sort((a, b) => parseDate(b.date) - parseDate(a.date));
+            
             renderPortfolio(allPortfolioData, containerEl);
             
             // Set up filter buttons
@@ -70,12 +74,7 @@ function renderPortfolio(data, container) {
         const card = document.createElement('div');
         card.className = 'qa-card';
         
-        const dateObj = new Date(item.date);
-        const dateStr = !isNaN(dateObj) ? dateObj.toLocaleDateString('th-TH', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        }) : '';
+        const dateStr = formatThaiDate(item.date);
         
         // Safety sanitization
         const safeQuestion = escapeHtml(item.question).replace(/\n/g, '<br>');
@@ -103,17 +102,72 @@ function renderPortfolio(data, container) {
             </div>
             
             <div class="qa-section" style="margin-bottom: 0;">
-                <h4 class="a-title">
-                    <i class="fas fa-gavel fa-lg"></i> คำแนะนำจากทนาย
-                </h4>
-                <div class="answer-box">
-                    ${safeAnswer}
-                </div>
+                <details class="answer-dropdown">
+                    <summary>
+                        <span><i class="fas fa-gavel fa-lg" style="margin-right: 8px;"></i> ดูคำแนะนำจากทนาย</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </summary>
+                    <div class="answer-box">
+                        ${safeAnswer}
+                    </div>
+                </details>
             </div>
         `;
         
         container.appendChild(card);
     });
+}
+
+function parseDate(dateInput) {
+    if (!dateInput) return 0;
+    
+    // JS Date can directly parse ISO or MM/DD/YYYY
+    const parsed = new Date(dateInput);
+    if (!isNaN(parsed.getTime())) {
+        return parsed.getTime();
+    }
+    
+    // Fallback: Custom parse for DD/MM/YYYY text
+    const str = dateInput.toString();
+    const parts = str.split(/[\/\-]/);
+    if (parts.length >= 3) {
+        // [DD, MM, YYYY] => YYYY-MM-DD
+        const customDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        if (!isNaN(customDate.getTime())) return customDate.getTime();
+    }
+    
+    return 0;
+}
+
+function formatThaiDate(dateInput) {
+    if (!dateInput) return '';
+    
+    let d = new Date(dateInput);
+    
+    if (isNaN(d.getTime())) {
+        const str = dateInput.toString();
+        const parts = str.split(/[\/\-]/);
+        if (parts.length >= 3) {
+            d = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        }
+    }
+    
+    if (isNaN(d.getTime())) return dateInput.toString();
+    
+    const thaiMonths = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+    ];
+    
+    const day = d.getDate();
+    const month = thaiMonths[d.getMonth()];
+    let year = d.getFullYear();
+    
+    if (year < 2500) {
+        year += 543;
+    }
+    
+    return `${day} ${month} พ.ศ. ${year}`;
 }
 
 function escapeHtml(unsafe) {
