@@ -35,7 +35,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (filterValue === 'all') {
                         renderPortfolio(allPortfolioData, containerEl);
                     } else {
-                        const filteredData = allPortfolioData.filter(item => item.category === filterValue);
+                        const filteredData = allPortfolioData.filter(item => {
+                            let cat = (item.category || '').toString().trim();
+                            let fv = filterValue.trim();
+                            
+                            // Check exact match, partial match, or special case for accident category
+                            if (cat === fv || cat.includes(fv) || fv.includes(cat)) return true;
+                            
+                            // Special variation handling for the accident / car category
+                            if ((fv.includes('พ.ร.บ') || fv.includes('อุบัติเหตุ')) && 
+                                (cat.includes('พ.ร.บ') || cat.includes('อุบัติเหตุ') || cat.includes('ชน'))) {
+                                return true;
+                            }
+                            
+                            return false;
+                        });
                         renderPortfolio(filteredData, containerEl);
                     }
                 });
