@@ -247,7 +247,7 @@ if (loginHistoryBtn) {
 }
 
 
-const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbweRNMbpeR_TFh1_1lU2WvG9sMt4jGOVgs6p11bVohO-bfhTIrYugZZvYmwyGfMHeQx/exec';
+const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzo_DnCgI-wJxNyzuEbMAskgRX1EsssKBUzySXd4cvoa9xIBbuWHkyzdE4g4OmSZaLT/exec';
 
 async function completeFlow() {
     // Save state before redirecting to LINE Login

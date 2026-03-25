@@ -56,6 +56,55 @@ function doGet(e) {
       return ContentService.createTextOutput(JSON.stringify({ status: 'success', data: historyData })).setMimeType(ContentService.MimeType.JSON);
     }
     
+    if (e.parameter && e.parameter.action === 'get_portfolio') {
+      const ss = SpreadsheetApp.openById(SHEET_ID);
+      const categories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+      
+      let portfolioData = [];
+      
+      categories.forEach(cat => {
+        const sheet = ss.getSheetByName(cat);
+        if (sheet) {
+          const data = sheet.getDataRange().getValues();
+          // loop from 1 to skip header row
+          for (let i = 1; i < data.length; i++) {
+            const row = data[i];
+            const answer = row[6]; // Column G (Index 6) is lawyer's answer
+            if (answer && answer.toString().trim() !== '') {
+               let nameStr = row[1] ? row[1].toString().trim() : 'ลูกค้า';
+               let anonName = 'คุณลูกค้า';
+               
+               if (nameStr && nameStr.length > 0) {
+                 // Try to get just the first actual character of the name, skipping common prefixes
+                 let firstChar = nameStr.charAt(0);
+                 if (nameStr.startsWith('นาย')) firstChar = nameStr.charAt(3) || 'ล';
+                 else if (nameStr.startsWith('นางสาว')) firstChar = nameStr.charAt(6) || 'ล';
+                 else if (nameStr.startsWith('นาง')) firstChar = nameStr.charAt(3) || 'ล';
+                 else if (nameStr.startsWith('ด.ช.')) firstChar = nameStr.charAt(4) || 'ล';
+                 else if (nameStr.startsWith('ด.ญ.')) firstChar = nameStr.charAt(4) || 'ล';
+                 
+                 anonName = `คุณ ${firstChar}***`;
+               }
+               
+               portfolioData.push({
+                 date: row[0],
+                 category: cat,
+                 question: row[3],
+                 answer: answer.toString().trim(),
+                 clientName: anonName
+               });
+            }
+          }
+        }
+      });
+      
+      // Sort by date newest first
+      portfolioData.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Return top 50 recent items to avoid heavy load
+      return ContentService.createTextOutput(JSON.stringify({ status: 'success', data: portfolioData.slice(0, 50) })).setMimeType(ContentService.MimeType.JSON);
+    }
+    
     return ContentService.createTextOutput("Trithep Law Office API is running.");
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
