@@ -56,10 +56,10 @@ function askGemini(userMessage) {
     if (result.candidates && result.candidates[0]) {
       return result.candidates[0].content.parts[0].text;
     }
-    return 'ขออภัย ระบบ AI ไม่สามารถตอบกลับได้ในขณะนี้ ทนายจะติดต่อกลับโดยตรงครับ';
+    return 'ติดต่อทนายผ่านช่องทางนี้ได้โดยตรง';
   } catch (err) {
     console.error('Gemini Error: ' + err.toString());
-    return 'ขออภัย ระบบ AI ขัดข้องชั่วคราว ทนายจะติดต่อกลับโดยตรงครับ';
+    return 'ติดต่อทนายผ่านช่องทางนี้ได้โดยตรง';
   }
 }
 
