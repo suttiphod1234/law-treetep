@@ -282,7 +282,15 @@ async function handleLineOAuthCallback(authCode) {
         return;
     }
     
-    document.body.style.opacity = '0.5'; // Loading state
+    // Show beautiful loading message
+    Swal.fire({
+        title: 'กำลังส่งคำถามถึงทนาย...',
+        html: 'ระบบกำลังประมวลผลและวิเคราะห์รูปคดีเบื้องต้น กรุณารอสักครู่',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+    });
     
     let pendingData = {};
     try { pendingData = JSON.parse(pendingDataStr); } catch(e) {}
@@ -291,12 +299,16 @@ async function handleLineOAuthCallback(authCode) {
     pendingData.code = authCode;
     
     console.log('Sending data and OAuth code to Back-end...', pendingData);
+    let aiReply = '';
     try {
-        await fetch(BACKEND_URL, {
+        const response = await fetch(BACKEND_URL, {
             method: 'POST',
-            body: JSON.stringify(pendingData),
-            mode: 'no-cors'
+            body: JSON.stringify(pendingData)
         });
+        const result = await response.json();
+        if (result.status === 'success' && result.aiReply) {
+            aiReply = result.aiReply;
+        }
         console.log('Data sent successfully');
     } catch (err) {
         console.error('Error sending data:', err);
@@ -313,16 +325,37 @@ async function handleLineOAuthCallback(authCode) {
     
     localStorage.removeItem('pending_consultation');
     
-    Swal.fire({
-        icon: 'success',
-        title: 'เชื่อมต่อสำเร็จ!',
-        text: 'กำลังพาคุณไปที่ Line OA เพื่อพูดคุยกับทนายแอดมิน...',
-        timer: 3000,
-        showConfirmButton: false,
-        allowOutsideClick: false
-    }).then(() => {
-        window.location.href = 'https://lin.ee/WwUXKHR';
-    });
+    // Remove the query parameters from URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+    
+    if (aiReply) {
+        Swal.fire({
+            title: '⚖️ คำแนะนำเบื้องต้นจากทนาย',
+            html: `
+                <div style="text-align: left; background: #f4f6f9; border-left: 4px solid #1a237e; padding: 15px; border-radius: 6px; font-size: 0.95rem; line-height: 1.6; color: #333; margin-bottom: 15px; font-family: 'Noto Sans Thai', sans-serif; white-space: pre-line;">
+                    ${aiReply}
+                </div>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 0;">กดปุ่มด้านล่างเพื่อแชทพูดคุยรายละเอียดหรือส่งหลักฐานเพิ่มเติมกับทนายใน LINE OA</p>
+            `,
+            icon: 'success',
+            confirmButtonText: 'พูดคุยกับทนายต่อใน LINE <i class="fab fa-line"></i>',
+            confirmButtonColor: '#00B900',
+            allowOutsideClick: false
+        }).then(() => {
+            window.location.href = 'https://lin.ee/WwUXKHR';
+        });
+    } else {
+        Swal.fire({
+            icon: 'success',
+            title: 'ส่งข้อมูลสำเร็จ!',
+            text: 'ทนายได้รับข้อมูลแล้ว กำลังนำท่านไปยัง LINE OA เพื่อพูดคุยและปรึกษาเพิ่มเติมครับ...',
+            timer: 3500,
+            showConfirmButton: false,
+            allowOutsideClick: false
+        }).then(() => {
+            window.location.href = 'https://lin.ee/WwUXKHR';
+        });
+    }
 }
 
 // History API Handler
