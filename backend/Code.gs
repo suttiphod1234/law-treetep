@@ -1,8 +1,9 @@
 /**
  * Google Apps Script Backend for Trithep Law Office
  * - Handles data storage in Google Sheets
- * - Categorizes cases automatically
+ * - Categorizes cases automatically with Gemini AI
  * - Integrates with Line Messaging API
+ * - Integrates with Google Gemini AI for legal assistance
  */
 
 const SHEET_ID = '17Nxa7YJah28ySjCmVtq8XJf_hoLqhUlT2I9wNTUw2S4';
@@ -12,6 +13,100 @@ const LAWYER_GROUP_ID = 'C0e8bc4aae31a5547c427bd4b7992efd7';
 const CHANNEL_ID = '2009590576';
 const CHANNEL_SECRET = '8a3a1adb11b3c0d689950b4582d928d5';
 const REDIRECT_URI = 'https://suttiphod1234.github.io/law-treetep/';
+
+// --- Gemini AI Config ---
+const GEMINI_API_KEY = 'AIzaSyA4xSs93Qr4j-Ru9qM4WTjzlSxGSO9h9I0';
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+/**
+ * ส่งคำถามไปยัง Gemini AI และรับคำตอบกลับ
+ * @param {string} userMessage - ข้อความจากลูกค้า
+ * @returns {string} - คำตอบจาก AI
+ */
+function askGemini(userMessage) {
+  try {
+    const systemPrompt = `คุณคือผู้ช่วยด้านกฎหมายไทยของ "สำนักกฎหมายตรีเทพทนายความ"
+หน้าที่ของคุณ:
+1. ให้ข้อมูลกฎหมายเบื้องต้นภาษาไทยที่เข้าใจง่าย
+2. ประเมินความร้ายแรงของคดีเบื้องต้น
+3. แนะนำสิทธิ์ทางกฎหมายที่ควรรู้
+4. สรุปสั้นกระชับ ไม่เกิน 5 ประโยค
+5. ลงท้ายด้วยการแนะนำให้ปรึกษาทนายความสำหรับรายละเอียด
+
+ห้าม: ให้คำแนะนำที่เป็นการตัดสินคดีขั้นสุดท้าย
+
+คำถามจากลูกค้า: ${userMessage}`;
+
+    const payload = {
+      contents: [{ parts: [{ text: systemPrompt }] }],
+      generationConfig: {
+        temperature: 0.4,
+        maxOutputTokens: 512
+      }
+    };
+
+    const response = UrlFetchApp.fetch(GEMINI_API_URL, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+
+    const result = JSON.parse(response.getContentText());
+    if (result.candidates && result.candidates[0]) {
+      return result.candidates[0].content.parts[0].text;
+    }
+    return 'ขออภัย ระบบ AI ไม่สามารถตอบกลับได้ในขณะนี้ ทนายจะติดต่อกลับโดยตรงครับ';
+  } catch (err) {
+    console.error('Gemini Error: ' + err.toString());
+    return 'ขออภัย ระบบ AI ขัดข้องชั่วคราว ทนายจะติดต่อกลับโดยตรงครับ';
+  }
+}
+
+/**
+ * ใช้ Gemini AI จัดหมวดหมู่คดี
+ * @param {string} text - ข้อความจากลูกค้า
+ * @returns {string} - หมวดหมู่คดี
+ */
+function categorizeCaseWithAI(text) {
+  try {
+    const prompt = `จากข้อความต่อไปนี้ จัดหมวดหมู่คดีความให้ตรงที่สุด โดยเลือกจาก:
+- คดีอาญา
+- คดีแพ่ง
+- จัดการมรดก
+- ที่ดิน
+- คดี พ.ร.บ. และอุบัติเหตุ
+- คดียึดทรัพย์
+- คดีผิดสัญญา
+
+ตอบเฉพาะชื่อหมวดหมู่เท่านั้น ไม่ต้องอธิบาย
+
+ข้อความ: ${text}`;
+
+    const payload = {
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.1, maxOutputTokens: 32 }
+    };
+
+    const response = UrlFetchApp.fetch(GEMINI_API_URL, {
+      method: 'post',
+      contentType: 'application/json',
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+
+    const result = JSON.parse(response.getContentText());
+    if (result.candidates && result.candidates[0]) {
+      const aiCategory = result.candidates[0].content.parts[0].text.trim();
+      const validCategories = ['คดีอาญา', 'คดีแพ่ง', 'จัดการมรดก', 'ที่ดิน', 'คดี พ.ร.บ. และอุบัติเหตุ', 'คดียึดทรัพย์', 'คดีผิดสัญญา'];
+      if (validCategories.includes(aiCategory)) return aiCategory;
+    }
+  } catch (err) {
+    console.error('AI Category Error: ' + err.toString());
+  }
+  // Fallback to keyword matching
+  return categorizeCase(text);
+}
 
 function doGet(e) {
   try {
@@ -113,8 +208,8 @@ function doPost(e) {
       userId = getLineUserIdFromCode(code);
     }
     
-    // 4. Categorize Case
-    const category = categorizeCase(message);
+    // 4. Categorize Case using Gemini AI
+    const category = categorizeCaseWithAI(message);
     
     // 5. Determine free usage limit status
     let statusText = 'Private ⭐️';
@@ -127,13 +222,16 @@ function doPost(e) {
       }
     }
     
-    // 6. Save to Google Sheet (Include userId)
-    saveToSheet(category, [new Date(), fullName, phone, message, type, userId]);
+    // 6. Ask Gemini AI for preliminary legal advice
+    const aiReply = askGemini(message);
     
-    // 7. Send Flex Message to Lawyer group
-    sendToLawyerGroup(fullName, phone, message, statusText, category, type);
+    // 7. Save to Google Sheet (Include userId + AI reply)
+    saveToSheet(category, [new Date(), fullName, phone, message, type, userId, aiReply]);
     
-    return ContentService.createTextOutput(JSON.stringify({ status: 'success', category, userId }))
+    // 8. Send Flex Message to Lawyer group
+    sendToLawyerGroup(fullName, phone, message, statusText, category, type, aiReply);
+    
+    return ContentService.createTextOutput(JSON.stringify({ status: 'success', category, userId, aiReply }))
       .setMimeType(ContentService.MimeType.JSON);
   } catch (err) {
     return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: err.toString() }))
@@ -175,12 +273,12 @@ function saveToSheet(sheetName, rowData) {
   let sheet = ss.getSheetByName(sheetName);
   if (!sheet) {
     sheet = ss.insertSheet(sheetName);
-    sheet.appendRow(['วันที่', 'ชื่อ-สกุล', 'เบอร์โทร', 'ข้อความปรึกษา', 'ประเภทบริการ', 'LINE User ID']);
+    sheet.appendRow(['วันที่', 'ชื่อ-สกุล', 'เบอร์โทร', 'ข้อความปรึกษา', 'ประเภทบริการ', 'LINE User ID', 'AI วิเคราะห์เบื้องต้น']);
   }
   sheet.appendRow(rowData);
 }
 
-function sendToLawyerGroup(name, phone, message, statusText, category, type) {
+function sendToLawyerGroup(name, phone, message, statusText, category, type, aiReply) {
   const url = 'https://api.line.me/v2/bot/message/push';
   
   let headerText = type === 'private' ? "✅ ยืนยันการชำระเงิน (Private)" : "🔔 เคสปรึกษาใหม่ (Free)";
@@ -209,7 +307,12 @@ function sendToLawyerGroup(name, phone, message, statusText, category, type) {
             { "type": "text", "text": "💳 ตรวจสอบสลิปโอนเงินผ่านระบบสำเร็จ", "color": "#757575", "size": "xs", "margin": "sm" }
         ] : []),
         { "type": "separator", "margin": "md" },
-        { "type": "text", "text": message, "wrap": true, "margin": "md" }
+        { "type": "text", "text": message, "wrap": true, "margin": "md" },
+        ...(aiReply ? [
+          { "type": "separator", "margin": "md" },
+          { "type": "text", "text": "🤖 AI วิเคราะห์เบื้องต้น:", "weight": "bold", "color": "#6a1b9a", "size": "sm", "margin": "md" },
+          { "type": "text", "text": aiReply, "wrap": true, "size": "xs", "color": "#555555", "margin": "sm" }
+        ] : [])
       ]
     },
     "footer": {
