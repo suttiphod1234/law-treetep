@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // The same backend URL as used in main.js
-    const BACKEND_URL = 'https://script.google.com/macros/s/AKfycby7t7N1s3Cd9oY4ov7CZamTsWdU5b63Rdqcb-YnlD602RnRZaOqGtMXc7ygaZIONgcE/exec';
+    const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbx_nExN2nE3SCjPwNPqsoN1RKVjis3SFllrNj1gI9YsTZOfTWG_go-eS0tcIJ9e_9om/exec';
     
     const loadingEl = document.getElementById('portfolio-loading');
     const containerEl = document.getElementById('portfolio-container');
